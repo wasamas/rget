@@ -12,7 +12,7 @@ def get_m4a(uri_playlist)
 end
 
 def save_m4a(uri_playlist, file_m4a)
-	open(file_m4a, 'w:ASCII-8BIT') do |m4a|
+	open(file_m4a, 'wb:ASCII-8BIT') do |m4a|
 		get_m4a(uri_playlist) do |part|
 			m4a.write part
 		end
