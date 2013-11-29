@@ -4,13 +4,13 @@ download audio files from some web-radio sites
 
 ## Installation
 
-  $ git clone http://bitbucket.org/tdtds/get-webradio.git
-  $ cd get-webradio
-  $ rake install
+    $ git clone http://bitbucket.org/tdtds/get-webradio.git
+    $ cd get-webradio
+    $ rake install
 
 ## Usage
 
-  get-webradio imachu          # download Radio de ima-chu!!
-  get-webradio imas\_cg         # download THE iDOLM@STER Cinderella Girls Radio
-  get-webradio imastudio       # download imastudio
+    get-webradio imachu          # download Radio de ima-chu!!
+    get-webradio imas\_cg         # download THE iDOLM@STER Cinderella Girls Radio
+    get-webradio imastudio       # download imastudio
 
