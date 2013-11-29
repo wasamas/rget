@@ -8,7 +8,7 @@ class WebRadio
 	def download(name)
 		case @url
 		when %r[^http://hibiki-radio\.jp/]
-			hibiki(name, open(@url, opt, &:read))
+			hibiki(name, open(@url, &:read))
 		when %r[^http://sp\.animate\.tv/]
 			animate(name, open(@url, 'User-Agent' => 'iPhone', &:read))
 		end
@@ -16,24 +16,27 @@ class WebRadio
 
 private
 	def hibiki(name, html)
-		serial = html.scan(/更新！ #(\d+)/).flatten.first
-		m3u_meta2 = html.scan(%r|href="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8\?.*?)"|).flatten.first
-		print "getting #{serial}"
-		
-		m3u_meta1 = open(m3u_meta2, &:read)
-		m3u = m3u_meta1.scan(/^[^#].*/).first
-		save_m4a(URI(m3u), "#{name}##{serial}.m4a")
-		puts "done."
+		independent_download(name, html, /更新！ #(\d+)/, %r|href="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8\?.*?)"|)
 	end
 
 	def animate(name, html)
-		serial = html.scan(/活動(\d+)週目/).flatten.first
-		m3u_meta2 = html.scan(%r|src="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8.*?)"|).flatten.first
+		independent_download(name, html, /活動(\d+)週目/, %r|src="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8.*?)"|)
+	end
+
+	def independent_download(name, html, serial_pattern, m3u_pattern)
+		serial = html.scan(serial_pattern).flatten.first
+		file = "#{name}##{serial}.m4a"
+		if File.exist? file
+			puts "'#{file}' is existent. skipped."
+			return
+		end
+
+		m3u_meta2 = html.scan(m3u_pattern).flatten.first
 		print "getting #{serial}"
 		
 		m3u_meta1 = open(m3u_meta2, &:read)
 		m3u = m3u_meta1.scan(/^[^#].*/).first
-		save_m4a(URI(m3u), "#{name}##{serial}.m4a")
+		save_m4a(URI(m3u), file)
 		puts "done."
 	end
 
