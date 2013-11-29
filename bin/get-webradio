@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+require 'webradio'
+
+class GetWebRadio < Thor
+	desc 'imas_cg', 'download THE iDOLM@STER Cinderella Girls Radio'
+	def imas_cg
+		WebRadio.new('http://hibiki-radio.jp/description/imas_cg').download('デレラジ')
+	end
+
+	desc 'imachu', 'download Radio de ima-chu!!'
+	def imachu
+		WebRadio.new('http://sp.animate.tv/radio/details.php?id=imas_chu').download('アイマCHU!')
+	end
+
+	desc 'imastudio', 'download imastudio'
+	def imastudio
+		WebRadio.new('http://hibiki-radio.jp/description/idolmaster').download('アイスタ')
+	end
+end
+
+GetWebRadio.start(ARGV)
