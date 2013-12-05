@@ -18,6 +18,11 @@ class GetWebRadio < Thor
 	def imastudio
 		WebRadio.new('http://hibiki-radio.jp/description/idolmaster').download('アイスタ')
 	end
+
+	desc 'bahamut', 'download Radio Shingeki-no-Bahamut'
+	def bahamut
+		WebRadio.new('http://hibiki-radio.jp/description/bahamut').download('バハムート')
+	end
 end
 
 GetWebRadio.start(ARGV)
