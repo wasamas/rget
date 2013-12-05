@@ -3,6 +3,7 @@ require 'open-uri'
 class WebRadio
 	def initialize(url)
 		@url = url
+		yield self if block_given?
 	end
 
 	def download(name)
@@ -12,6 +13,17 @@ class WebRadio
 		when %r[^http://sp\.animate\.tv/]
 			animate(name, open(@url, 'User-Agent' => 'iPhone', &:read))
 		end
+		self
+	end
+
+	def mp3ize
+		mp3_file = @m4a_file.sub(/\.m4a$/, '.mp3')
+		if File.exist? mp3_file
+			puts "'#{mp3_file}' is existent. skipped."
+			return self
+		end
+		system "ffmpeg -i #{@m4a_file} -ab 128k #{mp3_file}"
+		self
 	end
 
 private
@@ -25,9 +37,9 @@ private
 
 	def independent_download(name, html, serial_pattern, m3u_pattern)
 		serial = html.scan(serial_pattern).flatten.first
-		file = "#{name}##{serial}.m4a"
-		if File.exist? file
-			puts "'#{file}' is existent. skipped."
+		@m4a_file = "#{name}##{serial}.m4a"
+		if File.exist? @m4a_file
+			puts "'#{@m4a_file}' is existent. skipped."
 			return
 		end
 
@@ -36,7 +48,7 @@ private
 		
 		m3u_meta1 = open(m3u_meta2, &:read)
 		m3u = m3u_meta1.scan(/^[^#].*/).first
-		save_m4a(URI(m3u), file)
+		save_m4a(URI(m3u), @m4a_file)
 		puts "done."
 	end
 
@@ -49,8 +61,8 @@ private
 		end
 	end
 	
-	def save_m4a(uri_playlist, file_m4a)
-		open(file_m4a, 'wb:ASCII-8BIT') do |m4a|
+	def save_m4a(uri_playlist, m4a_file)
+		open(m4a_file, 'wb:ASCII-8BIT') do |m4a|
 			get_m4a(uri_playlist) do |part|
 				m4a.write part
 			end

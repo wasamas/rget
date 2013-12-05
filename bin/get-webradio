@@ -4,24 +4,38 @@ require 'thor'
 require 'webradio'
 
 class GetWebRadio < Thor
+	class_option :mp3, :type=>:boolean, :default=>false, :desc=>'convert to mp3 with ffmpeg'
+
 	desc 'imas_cg', 'download THE iDOLM@STER Cinderella Girls Radio'
 	def imas_cg
-		WebRadio.new('http://hibiki-radio.jp/description/imas_cg').download('デレラジ')
+		WebRadio.new('http://hibiki-radio.jp/description/imas_cg') do |radio|
+			radio.download('デレラジ')
+			radio.mp3ize if options.mp3?
+		end
 	end
 
 	desc 'imachu', 'download Radio de ima-chu!!'
 	def imachu
-		WebRadio.new('http://sp.animate.tv/radio/details.php?id=imas_chu').download('アイマCHU!')
+		WebRadio.new('http://sp.animate.tv/radio/details.php?id=imas_chu') do |radio|
+			radio.download('アイマCHU!')
+			radio.mp3ize if options.mp3?
+		end
 	end
 
 	desc 'imastudio', 'download imastudio'
 	def imastudio
-		WebRadio.new('http://hibiki-radio.jp/description/idolmaster').download('アイスタ')
+		WebRadio.new('http://hibiki-radio.jp/description/idolmaster') do |radio|
+			radio.download('アイスタ')
+			radio.mp3ize if options.mp3?
+		end
 	end
 
 	desc 'bahamut', 'download Radio Shingeki-no-Bahamut'
 	def bahamut
-		WebRadio.new('http://hibiki-radio.jp/description/bahamut').download('バハムート')
+		WebRadio.new('http://hibiki-radio.jp/description/bahamut') do |radio|
+			radio.download('バハムート')
+			radio.mp3ize if options.mp3?
+		end
 	end
 end
 
