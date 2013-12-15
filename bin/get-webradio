@@ -26,6 +26,11 @@ class GetWebRadio < Thor
 		process('http://hibiki-radio.jp/description/bahamut', 'バハムート')
 	end
 
+  desc '501', 'download Radio 501'
+  def st_501
+    process('http://hibiki-radio.jp/description/501st', 'ストパン501')
+  end
+
 private
 	def process(uri, label)
 		WebRadio.new(uri) do |radio|
