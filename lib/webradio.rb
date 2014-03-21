@@ -52,8 +52,12 @@ private
 		end
 
 		m3u_meta2 = html.scan(m3u_pattern).flatten.first
+		unless m3u_meta2
+			puts "fail: recent radio program not found."
+			exit -1
+		end
 		print "getting #{serial}"
-		
+
 		m3u_meta1 = open(m3u_meta2, &:read)
 		m3u = m3u_meta1.scan(/^[^#].*/).first
 		save_m4a(URI(m3u), @m4a_file)
