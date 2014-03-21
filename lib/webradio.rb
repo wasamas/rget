@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'open-uri'
 
 class WebRadio
@@ -11,7 +13,7 @@ class WebRadio
 		when %r[^http://hibiki-radio\.jp/]
 			hibiki(name, open(@url, &:read))
 		when %r[^http://sp\.animate\.tv/]
-      animate(name, open(@url, 'User-Agent' => 'iPhone', &:read))
+			animate(name, open(@url, 'User-Agent' => 'iPhone', &:read))
 		end
 		self
 	end
@@ -32,12 +34,11 @@ private
 	end
 
 	def animate(name, html)
-    serial_pattern = name == 'アイマCHU!' ? /活動(\d+)週目/ : /第(\d+)回/
-		independent_download(name, html, serial_pattern, %r|src="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8.*?)"|)
+		independent_download(name, html, /(活動|第)(\d+)(週目|回)/, %r|src="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8.*?)"|)
 	end
 
 	def independent_download(name, html, serial_pattern, m3u_pattern)
-		serial = html.scan(serial_pattern).flatten.first
+		serial = html.scan(serial_pattern).flatten[1]
 		@m4a_file = "#{name}##{serial}.m4a"
 		if File.exist? @m4a_file
 			puts "'#{@m4a_file}' is existent. skipped."
