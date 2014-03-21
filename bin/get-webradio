@@ -31,6 +31,11 @@ class GetWebRadio < Thor
     process('http://hibiki-radio.jp/description/501st', 'ストパン501')
   end
 
+  desc 'yomecol', 'download Yome-Kore'
+  def yomecol
+    process('http://sp.animate.tv/radio/details.php?id=yomecolle-r', '嫁コレ')
+  end
+
 private
 	def process(uri, label)
 		WebRadio.new(uri) do |radio|
