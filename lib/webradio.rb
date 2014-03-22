@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'open-uri'
 
 class WebRadio
@@ -32,7 +34,7 @@ private
 	end
 
 	def animate(name, html)
-		independent_download(name, html, /活動(\d+)週目/, %r|src="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8.*?)"|)
+		independent_download(name, html, /(?:活動|第)(\d+)(?:週目|回)/, %r|src="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8.*?)"|)
 	end
 
 	def independent_download(name, html, serial_pattern, m3u_pattern)
