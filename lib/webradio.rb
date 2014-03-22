@@ -34,11 +34,11 @@ private
 	end
 
 	def animate(name, html)
-		independent_download(name, html, /(活動|第)(\d+)(週目|回)/, %r|src="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8.*?)"|)
+		independent_download(name, html, /(?:活動|第)(\d+)(?:週目|回)/, %r|src="(http://www2.uliza.jp/IF/iphone/iPhonePlaylist.m3u8.*?)"|)
 	end
 
 	def independent_download(name, html, serial_pattern, m3u_pattern)
-		serial = html.scan(serial_pattern).flatten[1]
+		serial = html.scan(serial_pattern).flatten.first
 		@m4a_file = "#{name}##{serial}.m4a"
 		if File.exist? @m4a_file
 			puts "'#{@m4a_file}' is existent. skipped."
