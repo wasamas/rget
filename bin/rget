@@ -2,6 +2,7 @@
 
 require 'thor'
 require 'webradio'
+require 'podcast'
 
 class GetWebRadio < Thor
 	class_option :mp3, :type=>:boolean, :default=>false, :desc=>'convert to mp3 with ffmpeg'
@@ -36,11 +37,22 @@ class GetWebRadio < Thor
 		process('http://sp.animate.tv/radio/details.php?id=yomecolle-r', '嫁コレ')
 	end
 
+	desc 'rebuild', 'download recent Rebuild.fm episode'
+	def rebuild
+		podcast('http://feeds.rebuild.fm/rebuildfm', 'rebuildfm')
+	end
+
 private
 	def process(uri, label)
 		WebRadio.new(uri) do |radio|
 			radio.download(label)
 			radio.mp3ize if options.mp3?
+		end
+	end
+
+	def podcast(uri, label = nil)
+		Podcast.new(uri) do |pod|
+			pod.download(label)
 		end
 	end
 end
