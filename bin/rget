@@ -42,6 +42,11 @@ class GetWebRadio < Thor
 		podcast('http://feeds.rebuild.fm/rebuildfm', 'rebuildfm')
 	end
 
+	desc 'lbr', 'download Konnyamo LBR!!'
+	def lbr
+		process('http://onsen.ag/program/lbr/', 'lbr')
+	end
+
 private
 	def process(uri, label)
 		WebRadio.new(uri) do |radio|
