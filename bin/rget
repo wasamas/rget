@@ -49,7 +49,7 @@ class GetWebRadio < Thor
 
 private
 	def process(uri, label)
-		WebRadio.new(uri) do |radio|
+		WebRadio(uri) do |radio|
 			radio.download(label)
 			radio.mp3ize if options.mp3?
 		end
