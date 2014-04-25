@@ -10,7 +10,7 @@ download audio files from some web-radio sites
 
 ## Usage
 
-    get-webradio imachu          # download Radio de ima-chu!!
-    get-webradio imas_cg         # download THE iDOLM@STER Cinderella Girls Radio
-    get-webradio imastudio       # download imastudio
+    rget imachu          # download Radio de ima-chu!!
+    rget imas_cg         # download THE iDOLM@STER Cinderella Girls Radio
+    rget imastudio       # download imastudio
 
