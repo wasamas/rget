@@ -14,7 +14,7 @@ class WebRadio
 		when %r[^http://onsen\.ag/program/]
 			require 'onsen'
 			Onsen.new(url)
-		when %r[^http://seaside-c\.jp/program/]
+		when %r[^http://seaside-c\.jp/program/], %r[http://nakamuland\.net/]
 			require 'seaside-c'
 			SeasideCommnunications.new(url)
 		else

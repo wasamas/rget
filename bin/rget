@@ -52,6 +52,11 @@ class GetWebRadio < Thor
 		process('http://seaside-c.jp/program/suzakinishi/', 'suzakinishi')
 	end
 
+	desc 'nakamuland', 'download Nakamuland'
+	def nakamuland
+		process('http://nakamuland.net/', 'nakamuland')
+	end
+
 private
 	def process(uri, label)
 		WebRadio(uri) do |radio|
