@@ -14,6 +14,9 @@ class WebRadio
 		when %r[^http://onsen\.ag/program/]
 			require 'onsen'
 			Onsen.new(url)
+		when %r[^http://seaside-c\.jp/program/]
+			require 'seaside-c'
+			SeasideCommnunications.new(url)
 		else
 			raise 'unsupported url.'
 		end
@@ -33,12 +36,12 @@ class WebRadio
 	end
 
 private
-	def mp3_convert(src, dst)
+	def mp3_convert(src, dst, bitrate = 64)
 		if File.exist? dst
 			puts "'#{dst}' is existent. skipped."
 			return self
 		end
-		system "ffmpeg -i #{src} -ab 128k #{dst}"
+		system "ffmpeg -i #{src} -ab #{bitrate}k #{dst}"
 		self
 	end
 end
