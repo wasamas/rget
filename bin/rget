@@ -49,12 +49,12 @@ class GetWebRadio < Thor
 
 	desc 'suzakinishi', 'download Suzakinish'
 	def suzakinishi
-		process('http://seaside-c.jp/program/suzakinishi/', 'suzakinishi')
+		process('http://seaside-c.jp/program/suzakinishi/', '洲崎西')
 	end
 
 	desc 'nakamuland', 'download Nakamuland'
 	def nakamuland
-		process('http://nakamuland.net/', 'nakamuland')
+		process('http://nakamuland.net/', 'なかむランド')
 	end
 
 private
