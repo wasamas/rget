@@ -57,6 +57,11 @@ class GetWebRadio < Thor
 		process('http://nakamuland.net/', 'なかむランド')
 	end
 
+	desc 'adlib', 'download Adlib radio'
+	def adlib
+		process('http://seaside-c.jp/program/adlib/', 'あどりぶ')
+	end
+
 private
 	def process(uri, label)
 		WebRadio(uri) do |radio|
