@@ -60,7 +60,7 @@ class GetWebRadio < Thor
 	desc 'adlib', 'download Adlib radio'
 	def adlib
 		process('http://seaside-c.jp/program/adlib/', 'あどりぶ')
-  end
+	end
 
 	desc 'sidonia', 'download Radio Sidonia'
 	def sidonia
