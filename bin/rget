@@ -62,7 +62,7 @@ class GetWebRadio < Thor
 		process('http://seaside-c.jp/program/adlib/', 'あどりぶ')
 	end
 
-	desc 'sidonia', 'download Radio Sidonia'
+	desc 'sidonia', 'download Radio Knight of Sidonia'
 	def sidonia
 		process('http://onsen.ag/program/sidonia/', 'sidonia')
 	end
