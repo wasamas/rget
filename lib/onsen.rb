@@ -13,7 +13,7 @@ private
 		html = Nokogiri(open('http://onsen.ag/', 'User-Agent' => 'iPhone', &:read))
 		serial = html.css("##{program_id}").text.scan(/#(\d+)/).flatten.first
 		mp3_url = html.css('form[target=_self]').select {|form|
-			form.attr('action') =~ %r[/#{program_id}\d+\.mp3]
+			form.attr('action') =~ %r[/#{program_id}\w+\.mp3]
 		}.first.attr('action')
 		mp3_file = "#{name}##{serial}.mp3"
 		if File.exist? mp3_file
