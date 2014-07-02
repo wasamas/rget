@@ -67,6 +67,11 @@ class GetWebRadio < Thor
 		process('http://onsen.ag/program/sidonia/', 'sidonia')
 	end
 
+	desc 'aldnoah', 'download Aldnoah Zero Radio'
+	def aldnoah
+		process('http://onsen.ag/program/aldnoah/', 'アルドノア')
+	end
+
 private
 	def process(uri, label)
 		WebRadio(uri) do |radio|
