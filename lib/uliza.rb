@@ -7,7 +7,7 @@ class Uliza < WebRadio
 
 private
 	def uliza_download(name, html, serial_pattern, m3u_pattern)
-		serial = html.scan(serial_pattern).flatten.first
+		serial = html.scan(serial_pattern).flatten.last
 		@m4a_file = "#{name}##{serial}.m4a"
 		if File.exist? @m4a_file
 			puts "'#{@m4a_file}' is existent. skipped."
