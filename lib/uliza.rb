@@ -14,7 +14,7 @@ private
 			return
 		end
 
-		m3u_meta2 = html.scan(m3u_pattern).flatten.first
+		m3u_meta2 = html.scan(m3u_pattern).flatten.last
 		unless m3u_meta2
 			puts "fail: recent radio program not found."
 			exit -1
