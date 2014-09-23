@@ -32,11 +32,6 @@ class GetWebRadio < Thor
 		process('http://hibiki-radio.jp/description/501st', 'ストパン501')
 	end
 
-	desc 'yomecolle', 'download Yomecolle radio'
-	def yomecolle
-		process('http://sp.animate.tv/radio/details.php?id=yomecolle-r', '嫁コレ')
-	end
-
 	desc 'rebuild', 'download recent Rebuild.fm episode'
 	def rebuild
 		podcast('http://feeds.rebuild.fm/rebuildfm', 'rebuildfm')
