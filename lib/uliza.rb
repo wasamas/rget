@@ -7,14 +7,14 @@ class Uliza < WebRadio
 
 private
 	def uliza_download(name, html, serial_pattern, m3u_pattern)
-		serial = html.scan(serial_pattern).flatten.last
+		serial = html.scan(serial_pattern).flatten.sort{|a,b| a.to_i <=> b.to_i}.last
 		@m4a_file = "#{name}##{serial}.m4a"
 		if File.exist? @m4a_file
 			puts "'#{@m4a_file}' is existent. skipped."
 			return
 		end
 
-		m3u_meta2 = html.scan(m3u_pattern).flatten.last
+		m3u_meta2 = html.scan(m3u_pattern).flatten.sort.last
 		unless m3u_meta2
 			puts "fail: recent radio program not found."
 			exit -1
