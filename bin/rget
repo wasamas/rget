@@ -67,6 +67,11 @@ class GetWebRadio < Thor
 		process('http://onsen.ag/program/aldnoah/', 'アルドノア')
 	end
 
+	desc 'taizai', 'download Radio The Seven Deadly Sins'
+	def taizai
+		process('http://hibiki-radio.jp/description/taizai', '七つの大罪')
+	end
+
 private
 	def process(uri, label)
 		WebRadio(uri) do |radio|
