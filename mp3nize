@@ -1,8 +1,0 @@
-#!/bin/sh
-for m4a in $*; do
-	mp3=`basename $m4a .m4a`.mp3
-	if [ ! -f $mp3 ]; then
-		echo $m4a '->' $mp3
-		ffmpeg -i $m4a -b 128 $mp3 > /dev/null
-	fi
-done
