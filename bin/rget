@@ -1,75 +1,40 @@
 #!/usr/bin/env ruby
 
 require 'thor'
+require 'pathname'
+require 'yaml'
 require 'webradio'
 require 'podcast'
 
 class GetWebRadio < Thor
-	class_option :mp3, :type=>:boolean, :default=>false, :desc=>'convert to mp3 with ffmpeg'
+	class_option :mp3, type: :boolean, default:false, desc:'convert to mp3 with ffmpeg'
 
-	desc 'imas_cg', 'download THE iDOLM@STER Cinderella Girls Radio'
-	def imas_cg
-		process('http://hibiki-radio.jp/description/imas_cg', 'デレラジ')
+	config = nil
+	[
+		"#{Pathname(__dir__)}/../rget.yaml",
+		'~/.rget',
+		'./rget.yaml',
+	].each do |file|
+		path = Pathname(file).expand_path
+		if path.exist?
+			config = path.to_s
+			break
+		end
+	end
+	unless config
+		$stderr.puts 'config file not found'
+		exit 1
 	end
 
-	desc 'imachu', 'download Radio de ima-chu!!'
-	def imachu
-		process('http://sp.animate.tv/radio/details.php?id=imas_chu', 'アイマCHU!')
-	end
-
-	desc 'imastudio', 'download imastudio'
-	def imastudio
-		process('http://hibiki-radio.jp/description/idolmaster', 'アイスタ')
-	end
-
-	desc 'bahamut', 'download Radio Shingeki-no-Bahamut'
-	def bahamut
-		process('http://hibiki-radio.jp/description/bahamut', 'バハムート')
-	end
-
-	desc 'st501', 'download Radio 501'
-	def st501
-		process('http://hibiki-radio.jp/description/501st', 'ストパン501')
-	end
-
-	desc 'rebuild', 'download recent Rebuild.fm episode'
-	def rebuild
-		podcast('http://feeds.rebuild.fm/rebuildfm', 'rebuildfm')
-	end
-
-	desc 'lbr', 'download Konnyamo LBR!!'
-	def lbr
-		process('http://onsen.ag/program/lbr/', 'lbr')
-	end
-
-	desc 'suzakinishi', 'download Suzakinish'
-	def suzakinishi
-		process('http://seaside-c.jp/program/suzakinishi/', '洲崎西')
-	end
-
-	desc 'nakamuland', 'download Nakamuland'
-	def nakamuland
-		process('http://nakamuland.net/', 'なかむランド')
-	end
-
-	desc 'adlib', 'download Adlib radio'
-	def adlib
-		process('http://seaside-c.jp/program/adlib/', 'あどりぶ')
-	end
-
-	desc 'sidonia', 'download Radio Knight of Sidonia'
-	def sidonia
-		process('http://onsen.ag/program/sidonia/', 'sidonia')
-	end
-
-	desc 'aldnoah', 'download Aldnoah Zero Radio'
-	def aldnoah
-		process('http://onsen.ag/program/aldnoah/', 'アルドノア')
-	end
-
-	desc 'taizai', 'download Radio The Seven Deadly Sins'
-	def taizai
-		process('http://hibiki-radio.jp/description/taizai', '七つの大罪')
+	YAML::load_file(config)['programs'].each do |command, params|
+		desc command, params['desc']
+		define_method(command) do
+			if params['podcast']
+				podcast(params['url'], params['label'])
+			else
+				process(params['url'], params['label'])
+			end
+		end
 	end
 
 private

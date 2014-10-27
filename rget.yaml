@@ -1,0 +1,54 @@
+programs:
+  imas_cg:
+    desc: THE IDOLM@STERシンデレラガールズラジオ(デレラジ)
+    url: http://hibiki-radio.jp/description/imas_cg
+    label: デレラジ
+  imachu:
+    desc: ラジオdeアイマCHU!
+    url: http://sp.animate.tv/radio/details.php?id=imas_chu
+    label: アイマCHU!
+  imastudio:
+    desc: アイマスタジオ
+    url: http://hibiki-radio.jp/description/idolmaster
+    label: アイスタ
+  bahamut:
+    desc: ラジオ神撃のバハムート
+    url: http://hibiki-radio.jp/description/bahamut
+    label: バハムート
+  st501:
+    desc: 501st JFW.OA～第五○一統合戦闘航空団公式放送～
+    url: http://hibiki-radio.jp/description/501st
+    label: ストパン501
+  rebuild:
+    desc: Rebuild.fm
+    url: http://feeds.rebuild.fm/rebuildfm
+    label: rebuildfm
+    podcast: true
+  lbr:
+    desc: 今夜もLBR!!
+    url: http://onsen.ag/program/lbr/
+    label: lbr
+  suzakinishi:
+    desc: 州崎西
+    url: http://seaside-c.jp/program/suzakinishi/
+    label: 洲崎西
+  nakamuland:
+    desc: なかむランド
+    url: http://nakamuland.net/
+    label: なかむランド
+  adlib:
+    desc: あどりぶ
+    url: http://seaside-c.jp/program/adlib/
+    label: あどりぶ
+  sidonia:
+    desc: ラジオ シドニアの騎士～綾と綾音の秘密の光合成～
+    url: http://onsen.ag/program/sidonia/
+    label: sidonia
+  aldnoah:
+    desc: アルドノア・ラジオ
+    url: http://onsen.ag/program/aldnoah/
+    label: アルドノア
+  taizai:
+    desc: ラジオ七つの大罪 ＜豚の帽子＞亭ホークトーク
+    url: http://hibiki-radio.jp/description/taizai
+    label: 七つの大罪
