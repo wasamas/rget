@@ -11,9 +11,9 @@ class GetWebRadio < Thor
 
 	config = nil
 	[
-		"#{Pathname(__dir__)}/../rget.yaml",
-		'~/.rget',
 		'./rget.yaml',
+		'~/.rget',
+		"#{Pathname(__dir__)}/../rget.yaml",
 	].each do |file|
 		path = Pathname(file).expand_path
 		if path.exist?
