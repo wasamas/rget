@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'open-uri'
+require 'open3'
 
 class WebRadio
 	def self.instance(url)
@@ -41,7 +42,8 @@ private
 			puts "'#{dst}' is existent. skipped."
 			return self
 		end
-		system "ffmpeg -i #{src} -ab #{bitrate}k #{dst}"
+      result = Open3.capture3("ffmpeg -i #{src} -ab #{bitrate}k #{dst}")
+		$stderr.print result[1] unless result[2].to_i == 0
 		self
 	end
 end
