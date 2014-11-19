@@ -12,7 +12,7 @@ class Podcast
 		rss = RSS::Parser.parse(@url)
 		name = rss.channel.title unless name
 		episode = rss.items.first
-		serial = episode.link.scan(%r|\d+[^/]*|).flatten.first
+		serial = episode.link.scan(%r|\d+[^/\.]*|).flatten.first
 		unless serial
 			puts "fail: recent episode not found."
 			return
