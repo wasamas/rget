@@ -14,7 +14,6 @@ before running command, copy 'rget.yaml' to '~/.rget' or current work directory.
 
 ## Usage
 
-    rget imachu          # download Radio de ima-chu!!
     rget imas_cg         # download THE iDOLM@STER Cinderella Girls Radio
     rget imastudio --mp3 # download imastudio and save as MP3 file
 
