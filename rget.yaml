@@ -1,8 +1,8 @@
 programs:
   imas_cg:
-    desc: THE IDOLM@STERシンデレラガールズラジオ(デレラジ)
+    desc: デレラジA (THE IDOLM@STERシンデレラガールズラジオ)
     url: http://hibiki-radio.jp/description/imas_cg
-    label: デレラジ
+    label: デレラジA
   imastudio:
     desc: アイマスタジオ
     url: http://hibiki-radio.jp/description/idolmaster
