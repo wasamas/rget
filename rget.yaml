@@ -52,3 +52,7 @@ programs:
     desc: アニメ アイドルマスター シンデレラガールズ
     url: http://ch.nicovideo.jp/imas-cinderella/video?rss=2.0
     label: アニデレ
+  trysail:
+    desc: TrySailのTRYangle harmony
+    url: http://ch.nicovideo.jp/secondshot/video?rss=2.0
+    label: トラハモ
