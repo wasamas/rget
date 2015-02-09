@@ -18,6 +18,9 @@ class WebRadio
 		when %r[^http://seaside-c\.jp/program/], %r[http://nakamuland\.net/]
 			require 'seaside-c'
 			SeasideCommnunications.new(url)
+		when %r[nicovideo\.jp]
+			require 'nicovideo'
+			Nicovideo.new(url)
 		else
 			raise 'unsupported url.'
 		end

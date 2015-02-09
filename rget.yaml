@@ -48,3 +48,7 @@ programs:
     desc: ラジオ七つの大罪 ＜豚の帽子＞亭ホークトーク
     url: http://hibiki-radio.jp/description/taizai
     label: 七つの大罪
+  cinderella:
+    desc: アニメ アイドルマスター シンデレラガールズ
+    url: http://ch.nicovideo.jp/imas-cinderella/video?rss=2.0
+    label: アニデレ
