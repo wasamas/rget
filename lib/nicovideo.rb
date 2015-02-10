@@ -17,9 +17,7 @@ class Nicovideo < WebRadio
 	end
 
 	def download(name)
-		rss = RSS::Parser.parse(@url)
-		item = rss.items.first
-		player_url = item.link
+		player_url = get_player_url(@url)
 		video = @nico.video(Pathname(URI(player_url).path).basename.to_s)
 		serial = video.title.scan(/(?:[#第]| EP)(\d+)|/).flatten.compact[0].to_i
 		@file = "#{name}##{'%02d' % serial}.#{video.type}"
@@ -43,4 +41,16 @@ class Nicovideo < WebRadio
 	end
 
 private
+	def get_player_url(list_url)
+		begin
+			rss = RSS::Parser.parse(list_url)
+			item = rss.items.first
+			return item.link
+		rescue RSS::NotWellFormedError
+			html = open(list_url, &:read)
+			url = html.scan(%r|http://www.nicovideo.jp/watch/[\w]+|).first
+			raise StandardError.new('video not found in this pege') unless url
+			return url
+		end
+	end
 end

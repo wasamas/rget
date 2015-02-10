@@ -54,9 +54,9 @@ programs:
     label: アニデレ
   trysail:
     desc: TrySailのTRYangle harmony
-    url: http://ch.nicovideo.jp/secondshot/video?rss=2.0
+    url: http://ch.nicovideo.jp/search/TrySail?channel_id=ch2585696&mode=s&sort=f&order=d&type=video
     label: トラハモ
   hibiki_challenge:
     desc: 一番くじ＆クレーンキングスペシャル〜響チャレンジ！
-    url: http://ch.nicovideo.jp/ch346/video?rss=2.0
+    url: http://ch.nicovideo.jp/search/IDOLM@STER?channel_id=ch346&mode=s&sort=f&order=d&type=video
     label: 響チャレンジ
