@@ -56,3 +56,7 @@ programs:
     desc: TrySailのTRYangle harmony
     url: http://ch.nicovideo.jp/secondshot/video?rss=2.0
     label: トラハモ
+  hibiki_challenge:
+    desc: 一番くじ＆クレーンキングスペシャル〜響チャレンジ！
+    url: http://ch.nicovideo.jp/ch346/video?rss=2.0
+    label: 響チャレンジ
