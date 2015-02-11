@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "get-webradio"
-  spec.version       = "1.1.2"
+  spec.version       = "1.1.3"
   spec.authors       = ["TADA Tadashi"]
   spec.email         = ["t@tdtds.jp"]
   spec.description   = %q{download audio file from web radio services}
@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "thor"
   spec.add_runtime_dependency "nokogiri"
+  spec.add_runtime_dependency "niconico"
   spec.add_runtime_dependency "pit"
 
   spec.add_development_dependency "bundler", "~> 1.3"
