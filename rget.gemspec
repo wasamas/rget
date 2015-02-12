@@ -3,13 +3,13 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
-  spec.name          = "get-webradio"
-  spec.version       = "1.1.3"
+  spec.name          = "rget"
+  spec.version       = "1.1.4"
   spec.authors       = ["TADA Tadashi"]
   spec.email         = ["t@tdtds.jp"]
-  spec.description   = %q{download audio file from web radio services}
-  spec.summary       = %q{download audio file from web radio services}
-  spec.homepage      = "https://bitbucket.org/tdtds/get-webradio"
+  spec.description   = %q{Downloading newest radio programs on the web. Supported radio stations are hibiki, animate, onsen, seaside communications and niconico.}
+  spec.summary       = %q{Downloading newest radio programs on the web.}
+  spec.homepage      = "https://bitbucket.org/tdtds/rget"
   spec.license       = "GPL"
 
   spec.files         = `git ls-files`.split($/)
