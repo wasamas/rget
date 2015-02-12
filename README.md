@@ -1,19 +1,17 @@
-# get-webradio
+# rget
 
-download audio files from some web-radio sites.
+Downloading newest radio programs on the web. Supported radio stations are hibiki, animate, onsen, seaside communications and niconico.
 
-if you want to convert files to MP3, needs ffmpeg command.
+If you want to save files as MP3, needs `ffmpeg` command.
 
-before running command, copy 'rget.yaml' to '~/.rget' or current work directory.
+For customize radio programs, copy `rget.yaml` to `~/.rget` or current work directory and edit it.
 
 ## Installation
 
-    $ git clone http://bitbucket.org/tdtds/get-webradio.git
-    $ cd get-webradio
-    $ rake install
+    $ gem install rget
 
 ## Usage
 
-    rget imas_cg         # download THE iDOLM@STER Cinderella Girls Radio
-    rget imastudio --mp3 # download imastudio and save as MP3 file
+    rget imas_cg            # download and convert to mp3 THE iDOLM@STER Cinderella Girls Radio
+    rget imastudio --no-mp3 # download imastudio only (saved .m4a file)
 
