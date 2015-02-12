@@ -3,8 +3,9 @@
 require 'rss'
 
 class Podcast
-	def initialize(url)
+	def initialize(url, options)
 		@url = url
+		@options = options
 		yield self if block_given?
 	end
 

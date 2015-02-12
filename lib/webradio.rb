@@ -4,55 +4,76 @@ require 'open-uri'
 require 'open3'
 
 class WebRadio
-	def self.instance(url)
+	class DownloadError < StandardError; end
+
+	def self.instance(url, options)
 		case url
 		when %r[^http://hibiki-radio\.jp/]
 			require 'hibiki'
-			Hibiki.new(url)
+			Hibiki.new(url, options)
 		when %r[^http://sp\.animate\.tv/]
 			require 'animate'
 			Animate.new(url)
 		when %r[^http://onsen\.ag/program/]
 			require 'onsen'
-			Onsen.new(url)
+			Onsen.new(url, options)
 		when %r[^http://seaside-c\.jp/program/], %r[http://nakamuland\.net/]
 			require 'seaside-c'
-			SeasideCommnunications.new(url)
+			SeasideCommnunications.new(url, options)
 		when %r[nicovideo\.jp]
 			require 'nicovideo'
-			Nicovideo.new(url)
+			Nicovideo.new(url, options)
 		else
 			raise 'unsupported url.'
 		end
 	end
 
-	def initialize(url)
+	def initialize(url, options)
 		raise 'do not instanciate directly, use WebRadio method.' if self.class == WebRadio
 		@url = url
+		@options = options
 	end
 
 	def download(name)
 		raise 'not implemented.'
 	end
 
-	def mp3ize
-		return
-	end
-
 private
-	def mp3_convert(src, dst, bitrate = 64)
-		if File.exist? dst
-			puts "'#{dst}' is existent. skipped."
-			return self
+	def mp3ize(src, dst, delete_src = true)
+		# download src file
+		if !File.exist?(src) && !File.exist?(dst)
+			print "getting #{src}..."
+			begin
+				yield
+				puts "done."
+			rescue DownloadError => e
+				puts "failed."
+				File.delete(src) if File.exist?(src)
+				$stderr.puts e.message
+				return
+			end
 		end
-      result = Open3.capture3("ffmpeg -i #{src} -ab #{bitrate}k #{dst}")
-		$stderr.print result[1] unless result[2].to_i == 0
-		self
+
+		# convert to mp3
+		return self unless @options.mp3
+
+		print "converting to mp3..."
+		if File.exist? dst
+			puts "skipped."
+		else
+      	result = Open3.capture3("ffmpeg -i #{src} -ab 64k #{dst}")
+			if result[2].to_i == 0
+				File.delete(src) if delete_src
+			else
+				puts "failed."
+				$stderr.puts MediaConvertError.new(result[1])
+			end
+		end
 	end
 end
 
-def WebRadio(url)
-	radio = WebRadio.instance(url)
+def WebRadio(url, options)
+	radio = WebRadio.instance(url, options)
 	yield radio if block_given?
 	radio
 end

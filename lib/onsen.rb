@@ -16,14 +16,10 @@ private
 			form.attr('action') =~ %r[/#{program_id}\w+\.mp3]
 		}.first.attr('action')
 		mp3_file = "#{name}##{serial}.mp3"
-		if File.exist? mp3_file
-			puts "'#{mp3_file}' is existent. skipped."
-			return
+		mp3ize(mp3_file, mp3_file, false) do
+			open(mp3_file, 'wb:ASCII-8BIT') do |mp3|
+				mp3.write open(mp3_url, 'rb:ASCII-8BIT', &:read)
+			end
 		end
-		print "getting #{serial}..."
-		open(mp3_file, 'wb:ASCII-8BIT') do |mp3|
-			mp3.write open(mp3_url, 'rb:ASCII-8BIT', &:read)
-		end
-		puts "done."
 	end
 end
