@@ -40,9 +40,9 @@ private
 			return item.link
 		rescue RSS::NotWellFormedError
 			html = open(list_url, &:read)
-			url = html.scan(%r|http://www.nicovideo.jp/watch/[\w]+|).first
+			url = html.scan(%r|/watch/[\w]+|).first
 			raise WebRadio::DownloadError.new('video not found in this pege') unless url
-			return url
+			return "http://www.nicovideo.jp#{url}"
 		end
 	end
 end
