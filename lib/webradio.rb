@@ -35,6 +35,10 @@ class WebRadio
 		raise 'do not instanciate directly, use WebRadio method.' if self.class == WebRadio
 		@url = url
 		@options = options
+		if @options.path =~ %r|^dropbox://|
+			require 'dropbox'
+			@dropbox = DropboxAuth.client
+		end
 	end
 
 	def download(name)
@@ -44,7 +48,7 @@ class WebRadio
 private
 	def mp3ize(src, dst, delete_src = true)
 		# download src file
-		if !File.exist?(src) && !File.exist?(dst)
+		if !File.exist?(src) && !exist?(dst)
 			print "getting #{src}..."
 			begin
 				yield
@@ -61,8 +65,9 @@ private
 		return self unless @options.mp3
 
 		print "converting to mp3..."
-		if File.exist? dst
+		if exist? dst
 			puts "skipped."
+			return
 		else
       	result = Open3.capture3("ffmpeg -i #{src} -ab 64k #{dst}")
 			if result[2].to_i == 0
@@ -70,9 +75,47 @@ private
 				puts "done."
 			else
 				puts "failed."
-				$stderr.puts MediaConvertError.new(result[1])
+				$stderr.puts result[1]
 			end
 		end
+
+		# move to path
+		if @options.path
+			print "move to #{@options.path}..."
+			begin
+				move(dst)
+				puts "done."
+			rescue => e
+				puts "failed."
+				$stderr.puts e.message
+			end
+		end
+	end
+
+	def exist?(dst)
+		if @dropbox
+			begin
+				!@dropbox.ls(dropbox_file(dst))[0]['is_deleted']
+			rescue Dropbox::API::Error::NotFound, NoMethodError
+				false
+			end
+		else
+			File.exist?(dst)
+		end
+	end
+
+	def move(dst)
+		if @dropbox
+			@dropbox.chunked_upload(dropbox_file(dst), open(dst))
+			File.delete(dst)
+		elsif @options.path
+			FileUtils.mv(dst, @options.path)
+		end
+	end
+
+	def dropbox_file(file)
+		path = @options.path.sub(%r|^dropbox://|, '')
+		File.join(path, file)
 	end
 end
 

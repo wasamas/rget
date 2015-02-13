@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "niconico", ">= 1.7.0"
   spec.add_runtime_dependency "viddl-rb"
   spec.add_runtime_dependency "pit"
+  spec.add_runtime_dependency "dropbox-api"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"

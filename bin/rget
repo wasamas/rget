@@ -8,6 +8,7 @@ require 'podcast'
 
 class GetWebRadio < Thor
 	class_option :mp3, type: :boolean, default:true, desc:'convert to mp3 with ffmpeg'
+	class_option :path, type: :string, desc:'store path (accept "dropbox://~")'
 
 	config = nil
 	[
