@@ -80,19 +80,17 @@ private
 
 		# convert to mp3
 		print "converting to mp3..."
-		unless exist? dst
-      	result = Open3.capture3("ffmpeg -i #{src} -ab 64k #{dst}")
-			if result[2].to_i == 0
-				File.delete(src) if delete_src
-				puts "done."
-			else
-				File.delete(dst) if File.exist?(dst)
-				puts "failed."
-				$stderr.puts result[1]
-				return
-			end
+     	result = Open3.capture3("ffmpeg -i #{src} -ab 64k #{dst}")
+		if result[2].to_i == 0
+			File.delete(src) if delete_src
+			puts "done."
+		else
+			File.delete(dst) if File.exist?(dst)
+			puts "failed."
+			$stderr.puts result[1]
+			return
 		end
-		move(dst)
+		move(dst) if @options.path
 	end
 
 	def exist?(dst)
@@ -102,6 +100,8 @@ private
 			rescue Dropbox::API::Error::NotFound, NoMethodError
 				false
 			end
+		elsif @options.path
+			File.exist?(File.join(@options.path, dst))
 		else
 			File.exist?(dst)
 		end
