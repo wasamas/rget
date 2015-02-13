@@ -16,7 +16,7 @@ class YouTube < WebRadio
 		@src = "#{name}##{'%02d' % serial}.mp4"
 		@dst = "#{name}##{'%02d' % serial}.mp3"
 		mp3ize(@src, @dst) do
-			player_url = "http://www.youtube.com#{list[serial]}"
+			player_url = "https://www.youtube.com#{list[serial]}".sub(/&.*/, '')
      		result = Open3.capture3("viddl-rb -u -q '*:*:mp4' '#{player_url}'")
 			video_url = result[0].split.last.chomp
 			open(@src, 'wb:ASCII-8BIT') do |o|
