@@ -47,49 +47,52 @@ class WebRadio
 
 private
 	def mp3ize(src, dst, delete_src = true)
+		if @options.mp3
+			if exist?(dst)
+				puts "#{dst} is existent, skipped."
+				return
+			end
+		else
+			if exist?(src)
+				puts "#{src} is existent, skipped."
+				return
+			end
+		end
+
+
 		# download src file
-		if !File.exist?(src) && !exist?(dst)
+		unless File.exist?(src)
 			print "getting #{src}..."
 			begin
 				yield
 				puts "done."
 			rescue DownloadError => e
-				puts "failed."
 				File.delete(src) if File.exist?(src)
+				puts "failed."
 				$stderr.puts e.message
 				return
 			end
 		end
+		if !@options.mp3 || src == dst
+			move(src) if @options.path
+			return
+		end
 
 		# convert to mp3
-		return self unless @options.mp3
-
 		print "converting to mp3..."
-		if exist? dst
-			puts "skipped."
-			return
-		else
+		unless exist? dst
       	result = Open3.capture3("ffmpeg -i #{src} -ab 64k #{dst}")
 			if result[2].to_i == 0
 				File.delete(src) if delete_src
 				puts "done."
 			else
+				File.delete(dst) if File.exist?(dst)
 				puts "failed."
 				$stderr.puts result[1]
+				return
 			end
 		end
-
-		# move to path
-		if @options.path
-			print "move to #{@options.path}..."
-			begin
-				move(dst)
-				puts "done."
-			rescue => e
-				puts "failed."
-				$stderr.puts e.message
-			end
-		end
+		move(dst)
 	end
 
 	def exist?(dst)
@@ -105,11 +108,20 @@ private
 	end
 
 	def move(dst)
-		if @dropbox
-			@dropbox.chunked_upload(dropbox_file(dst), open(dst))
-			File.delete(dst)
-		elsif @options.path
-			FileUtils.mv(dst, @options.path)
+		if @options.path
+			print "move to #{@options.path}..."
+			begin
+				if @dropbox
+					@dropbox.chunked_upload(dropbox_file(dst), open(dst))
+					File.delete(dst)
+				elsif @options.path
+					FileUtils.mv(dst, @options.path)
+				end
+				puts "done."
+			rescue => e
+				puts "failed."
+				$stderr.puts e.message
+			end
 		end
 	end
 
