@@ -60,3 +60,7 @@ programs:
     desc: 一番くじ＆クレーンキングスペシャル〜響チャレンジ！
     url: http://ch.nicovideo.jp/search/IDOLM@STER?channel_id=ch346&mode=s&sort=f&order=d&type=video
     label: 響チャレンジ
+  greenight:
+    desc: 花澤香菜と雨宮天のRADIO GREE NIGHT
+    url: https://www.youtube.com/playlist?list=PLpAhJfIVc-EcAQXGGRlOir7ctL-wNCnoq
+    label: GREENIGHT
