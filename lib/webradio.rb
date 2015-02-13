@@ -64,6 +64,7 @@ private
       	result = Open3.capture3("ffmpeg -i #{src} -ab 64k #{dst}")
 			if result[2].to_i == 0
 				File.delete(src) if delete_src
+				puts "done."
 			else
 				puts "failed."
 				$stderr.puts MediaConvertError.new(result[1])
