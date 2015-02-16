@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require 'pit'
+require 'niconico'
+require 'pathname'
+
+player_url = ARGV.shift
+unless player_url
+	$stderr.puts "usage: nicodl <URL>"
+	exit -1
+end
+account = Pit::get('nicovideo', :require => {
+	:id => 'your nicovideo id',
+	:pass => 'your nicovideo password'
+})
+nico = Niconico.new(account[:id], account[:pass])
+nico.login
+video = nico.video(Pathname(URI(player_url).path).basename.to_s)
+title = video.title
+file = "#{title}.#{video.type}"
+mp3_file = file.sub(/\....$/, '.mp3')
+open(file, 'wb:ASCII-8BIT') do |o|
+	video.get_video{|body|o.write(body)}
+end
