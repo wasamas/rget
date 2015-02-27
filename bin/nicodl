@@ -16,9 +16,7 @@ account = Pit::get('nicovideo', :require => {
 nico = Niconico.new(account[:id], account[:pass])
 nico.login
 video = nico.video(Pathname(URI(player_url).path).basename.to_s)
-title = video.title
-file = "#{title}.#{video.type}"
-mp3_file = file.sub(/\....$/, '.mp3')
+file = "#{video.title}.#{video.type}".gsub(%r([\\/\?:*"><|]), '_')
 open(file, 'wb:ASCII-8BIT') do |o|
 	video.get_video{|body|o.write(body)}
 end
