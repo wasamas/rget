@@ -1,3 +1,5 @@
+options:
+  mp3nize: ffmpeg -i '$1' -ab 64k '$2'
 programs:
   imas_cg:
     desc: デレラジA (THE IDOLM@STERシンデレラガールズラジオ)

@@ -80,7 +80,15 @@ private
 
 		# convert to mp3
 		print "converting to mp3..."
-     	result = Open3.capture3("ffmpeg -i #{src} -ab 64k #{dst}")
+		ffmpeg = (@options['mp3nize'] || "ffmpeg -i '$1' -ab 64k '$2'").gsub(/\$(.)/){|s|
+			case $1
+				when '1'; src
+				when '2'; dst
+				when '$'; '$'
+				else; s
+			end
+		}
+		result = Open3.capture3(ffmpeg)
 		if result[2].to_i == 0
 			File.delete(src) if delete_src
 			puts "done."

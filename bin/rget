@@ -3,6 +3,7 @@
 require 'thor'
 require 'pathname'
 require 'yaml'
+require 'ostruct'
 require 'webradio'
 require 'podcast'
 
@@ -10,7 +11,7 @@ class GetWebRadio < Thor
 	class_option :mp3, type: :boolean, default:true, desc:'convert to mp3 with ffmpeg'
 	class_option :path, type: :string, desc:'store path (accept "dropbox://~")'
 
-	config = nil
+	config_file = nil
 	[
 		'./rget.yaml',
 		'~/.rget',
@@ -18,36 +19,26 @@ class GetWebRadio < Thor
 	].each do |file|
 		path = Pathname(file).expand_path
 		if path.exist?
-			config = path.to_s
+			config_file = path.to_s
 			break
 		end
 	end
-	unless config
+	unless config_file
 		$stderr.puts 'config file not found'
 		exit 1
 	end
 
-	YAML::load_file(config)['programs'].each do |command, params|
+	config = YAML::load_file(config_file)
+	config['programs'].each do |command, params|
 		desc command, params['desc']
 		define_method(command) do
+			url = params['url']
+			opts = OpenStruct.new(config['options'].merge(options))
 			if params['podcast']
-				podcast(params['url'], params['label'])
+				Podcast.new(url, opts){|media|media.download(params['label'])}
 			else
-				process(params['url'], params['label'])
+				WebRadio(url, opts){|media|media.download(params['label'])}
 			end
-		end
-	end
-
-private
-	def process(uri, label)
-		WebRadio(uri, options) do |radio|
-			radio.download(label)
-		end
-	end
-
-	def podcast(uri, label = nil)
-		Podcast.new(uri, options) do |pod|
-			pod.download(label)
 		end
 	end
 end
