@@ -24,7 +24,7 @@ programs:
     podcast: true
   lbr:
     desc: 今夜もLBR!!
-    url: http://onsen.ag/program/lbr/
+    url: http://www.onsen.ag/program/lbr/
     label: lbr
   suzakinishi:
     desc: 州崎西
@@ -40,11 +40,11 @@ programs:
     label: あどりぶ
   sidonia:
     desc: ラジオ シドニアの騎士～綾と綾音の秘密の光合成～
-    url: http://onsen.ag/program/sidonia/
+    url: http://www.onsen.ag/program/sidonia/
     label: sidonia
   aldnoah:
     desc: アルドノア・ラジオ
-    url: http://onsen.ag/program/aldnoah/
+    url: http://www.onsen.ag/program/aldnoah/
     label: アルドノア
   taizai:
     desc: ラジオ七つの大罪 ＜豚の帽子＞亭ホークトーク
