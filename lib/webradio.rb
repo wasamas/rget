@@ -14,7 +14,7 @@ class WebRadio
 		when %r[^http://sp\.animate\.tv/]
 			require 'animate'
 			Animate.new(url)
-		when %r[^http://onsen\.ag/program/]
+		when %r[^http://(www\.)?onsen\.ag/program/]
 			require 'onsen'
 			Onsen.new(url, options)
 		when %r[^http://seaside-c\.jp/program/], %r[http://nakamuland\.net/]
