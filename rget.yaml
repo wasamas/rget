@@ -66,3 +66,11 @@ programs:
     desc: 花澤香菜と雨宮天のRADIO GREE NIGHT
     url: https://www.youtube.com/playlist?list=PLpAhJfIVc-EcAQXGGRlOir7ctL-wNCnoq
     label: GREENIGHT
+  rekan:
+    desc: 今夜もざわざわ♪ レーカン！ラジオ…なんです。
+    url: http://www.onsen.ag/program/re-kan/
+    label: レーカン
+  pleiades:
+    desc: 放課後のプレアデスRADIO
+    url: http://www.onsen.ag/program/pleiades/
+    label: プレアデス
