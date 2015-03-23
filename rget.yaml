@@ -74,3 +74,7 @@ programs:
     desc: 放課後のプレアデスRADIO
     url: http://www.onsen.ag/program/pleiades/
     label: プレアデス
+  euphonium:
+    desc: 響け！ユーフォラジオ
+    url: http://www.onsen.ag/program/euphonium/
+    label: ユーフォラジオ
