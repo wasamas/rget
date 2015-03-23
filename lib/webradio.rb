@@ -4,6 +4,7 @@ require 'open-uri'
 require 'open3'
 
 class WebRadio
+	class NotFoundError < StandardError; end
 	class DownloadError < StandardError; end
 
 	def self.instance(url, options)
