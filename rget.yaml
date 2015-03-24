@@ -78,3 +78,8 @@ programs:
     desc: 響け！ユーフォラジオ
     url: http://www.onsen.ag/program/euphonium/
     label: ユーフォラジオ
+  panpaka:
+    desc: アイドルマスターWebラジオ～クレーンキング＆一番くじスペシャル～つかんでひいてぱんぱかぱーん！わたしたちも盛り上げM@S！
+    url: http://ch.nicovideo.jp/search/IDOLM@STER?channel_id=ch346&mode=s&sort=f&order=d&type=video
+    label: ぱんぱかぱん
+
