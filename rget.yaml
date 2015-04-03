@@ -22,10 +22,6 @@ programs:
     url: http://feeds.rebuild.fm/rebuildfm
     label: rebuildfm
     podcast: true
-  lbr:
-    desc: 今夜もLBR!!
-    url: http://www.onsen.ag/program/lbr/
-    label: lbr
   suzakinishi:
     desc: 州崎西
     url: http://seaside-c.jp/program/suzakinishi/
