@@ -19,7 +19,7 @@ class Nicovideo < WebRadio
 	def download(name)
 		player_url = get_player_url(@url)
 		video = @nico.video(Pathname(URI(player_url).path).basename.to_s)
-		serial = video.title.scan(/(?:[#第]|[ 　]EP)(\d+)|/).flatten.compact[0].to_i
+		serial = video.title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
 		@file = "#{name}##{'%02d' % serial}.#{video.type}"
 		@mp3_file = @file.sub(/\....$/, '.mp3')
 		mp3ize(@file, @mp3_file) do
