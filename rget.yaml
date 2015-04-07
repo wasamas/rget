@@ -78,4 +78,7 @@ programs:
     desc: アイドルマスターWebラジオ～クレーンキング＆一番くじスペシャル～つかんでひいてぱんぱかぱーん！わたしたちも盛り上げM@S！
     url: http://ch.nicovideo.jp/search/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC?channel_id=ch346&mode=s&sort=f&order=d&type=video
     label: ぱんぱかぱん
-
+  showbyrock:
+    desc: アニメ SHOW BY ROCK!!
+    url: http://ch.nicovideo.jp/showbyrock_anime/video?rss=2.0
+    label: SHOWBYROCK
