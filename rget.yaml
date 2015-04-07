@@ -76,6 +76,6 @@ programs:
     label: ユーフォラジオ
   panpaka:
     desc: アイドルマスターWebラジオ～クレーンキング＆一番くじスペシャル～つかんでひいてぱんぱかぱーん！わたしたちも盛り上げM@S！
-    url: http://ch.nicovideo.jp/search/IDOLM@STER?channel_id=ch346&mode=s&sort=f&order=d&type=video
+    url: http://ch.nicovideo.jp/search/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC?channel_id=ch346&mode=s&sort=f&order=d&type=video
     label: ぱんぱかぱん
 
