@@ -38,10 +38,6 @@ programs:
     desc: ラジオ シドニアの騎士～綾と綾音の秘密の光合成～
     url: http://www.onsen.ag/program/sidonia/
     label: sidonia
-  aldnoah:
-    desc: アルドノア・ラジオ
-    url: http://www.onsen.ag/program/aldnoah/
-    label: アルドノア
   taizai:
     desc: ラジオ七つの大罪 ＜豚の帽子＞亭ホークトーク
     url: http://hibiki-radio.jp/description/taizai
@@ -54,10 +50,6 @@ programs:
     desc: TrySailのTRYangle harmony
     url: http://ch.nicovideo.jp/search/TrySail?channel_id=ch2585696&mode=s&sort=f&order=d&type=video
     label: トラハモ
-  hibiki_challenge:
-    desc: 一番くじ＆クレーンキングスペシャル〜響チャレンジ！
-    url: http://ch.nicovideo.jp/search/IDOLM@STER?channel_id=ch346&mode=s&sort=f&order=d&type=video
-    label: 響チャレンジ
   greenight:
     desc: 花澤香菜と雨宮天のRADIO GREE NIGHT
     url: https://www.youtube.com/playlist?list=PLpAhJfIVc-EcAQXGGRlOir7ctL-wNCnoq
@@ -82,3 +74,7 @@ programs:
     desc: アニメ SHOW BY ROCK!!
     url: http://ch.nicovideo.jp/showbyrock_anime/video?rss=2.0
     label: SHOWBYROCK
+  plamemo:
+    desc: ミチルとザックのプラメモラジオ
+    url: http://hibiki-radio.jp/description/plamemo
+    label: プラメモ
