@@ -74,3 +74,7 @@ programs:
     desc: アニメ SHOW BY ROCK!!
     url: http://ch.nicovideo.jp/showbyrock_anime/video?rss=2.0
     label: SHOWBYROCK
+  plamemo:
+    desc: ミチルとザックのプラメモラジオ
+    url: http://hibiki-radio.jp/description/plamemo
+    label: プラメモ
