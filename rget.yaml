@@ -23,9 +23,17 @@ programs:
     label: rebuildfm
     podcast: true
   suzakinishi:
-    desc: 州崎西
+    desc: 洲崎西
     url: http://seaside-c.jp/program/suzakinishi/
     label: 洲崎西
+  ssc:
+    desc: 春佳・彩花のSSちゃんねる
+    url: http://seaside-c.jp/program/ssc/
+    label: 春佳・彩花のSSちゃんねる
+  remake:
+    desc: りめいく！
+    url: http://seaside-c.jp/program/remake/
+    label: りめいく！
   nakamuland:
     desc: なかむランド
     url: http://nakamuland.net/
