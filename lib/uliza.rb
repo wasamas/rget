@@ -6,7 +6,7 @@ private
 		serial = html.scan(serial_pattern).flatten.sort{|a,b| a.to_i <=> b.to_i}.last
 		@m4a_file = "#{name}##{serial}.m4a"
 		@mp3_file = @m4a_file.sub(/\.m4a$/, '.mp3')
-		mp3ize(@m4a_file, @mp3_file) do
+		mp3nize(@m4a_file, @mp3_file) do
 			m3u_meta2 = html.scan(m3u_pattern).flatten.sort.last
 			unless m3u_meta2
 				raise WebRadio::DownloadError.new("recent radio program not found.")

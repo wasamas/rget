@@ -20,7 +20,7 @@ private
 			raise NotFoundError.new("no radio program in #{program_id}.")
 		end
 		mp3_file = "#{name}##{serial}.mp3"
-		mp3ize(mp3_file, mp3_file, false) do
+		mp3nize(mp3_file, mp3_file, false) do
 			open(mp3_file, 'wb:ASCII-8BIT') do |mp3|
 				mp3.write open(mp3_url, 'rb:ASCII-8BIT', &:read)
 			end

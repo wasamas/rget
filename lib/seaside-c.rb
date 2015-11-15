@@ -14,7 +14,7 @@ class SeasideCommnunications < WebRadio
 
 		@wma_file = "#{name}##{serial}.wma"
 		@mp3_file = @wma_file.sub(/\.wma$/, '.mp3')
-		mp3ize(@wma_file, @mp3_file) do
+		mp3nize(@wma_file, @mp3_file) do
 			open(@wma_file, 'wb:ASCII-8BIT') do |wma|
 				wma.write(open(wma_url, &:read))
 			end

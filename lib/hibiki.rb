@@ -53,7 +53,7 @@ private
 
 		decoder.decrypt
 
-		mp3ize(ts_file, mp3_file) do
+		mp3nize(ts_file, mp3_file) do
 			open(ts_file, 'wb:ASCII-8BIT') do |ts|
 				tses.each do |file|
 					base_url.path = "#{base_path}/#{file}"

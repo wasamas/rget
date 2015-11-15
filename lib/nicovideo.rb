@@ -22,7 +22,7 @@ class Nicovideo < WebRadio
 		serial = video.title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
 		@file = "#{name}##{'%02d' % serial}.#{video.type}"
 		@mp3_file = @file.sub(/\....$/, '.mp3')
-		mp3ize(@file, @mp3_file) do
+		mp3nize(@file, @mp3_file) do
 			open(@file, 'wb:ASCII-8BIT') do |o|
 				video.get_video do |body|
 					print '.'

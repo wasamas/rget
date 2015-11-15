@@ -47,7 +47,7 @@ class WebRadio
 	end
 
 private
-	def mp3ize(src, dst, delete_src = true)
+	def mp3nize(src, dst, delete_src = true)
 		if @options.mp3
 			if exist?(dst)
 				puts "#{dst} is existent, skipped."
