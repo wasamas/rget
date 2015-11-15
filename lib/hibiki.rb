@@ -44,8 +44,8 @@ private
 			raise NotFoundError.new("no radio program in #{program_id}.")
 		end
 
-		ts_file = "#{name}-#{serial}.ts"
-		mp3_file = "#{name}-#{serial}.mp3"
+		ts_file = "#{name}##{serial}.ts"
+		mp3_file = "#{name}##{serial}.mp3"
 
 		decoder = OpenSSL::Cipher.new('aes-128-cbc')
 		decoder.key = key
