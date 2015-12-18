@@ -14,6 +14,9 @@ class Podcast
 		name = rss.channel.title unless name
 		episode = rss.items.first
 		serial = episode.link.scan(%r|\d+[^/\.]*|).flatten.first
+		if serial.to_i > 2000 # may be year
+			serial = episode.pubDate.strftime('%Y%m%d')
+		end
 		unless serial
 			puts "fail: recent episode not found."
 			return

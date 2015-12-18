@@ -86,3 +86,8 @@ programs:
     desc: ミチルとザックのプラメモラジオ
     url: http://hibiki-radio.jp/description/plamemo
     label: プラメモ
+  amina1422:
+    desc: 佐藤亜美菜のこの世に小文字はいりません!
+    url: http://feeds.feedburner.com/amina1422
+    label: よにこも
+    podcast: true
