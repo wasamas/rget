@@ -46,10 +46,6 @@ programs:
     desc: ラジオ シドニアの騎士～綾と綾音の秘密の光合成～
     url: http://www.onsen.ag/program/sidonia/
     label: sidonia
-  taizai:
-    desc: ラジオ七つの大罪 ＜豚の帽子＞亭ホークトーク
-    url: http://hibiki-radio.jp/description/taizai
-    label: 七つの大罪
   cinderella:
     desc: アニメ アイドルマスター シンデレラガールズ
     url: http://ch.nicovideo.jp/imas-cinderella/video?rss=2.0
@@ -62,14 +58,6 @@ programs:
     desc: 花澤香菜と雨宮天のRADIO GREE NIGHT
     url: https://www.youtube.com/playlist?list=PLpAhJfIVc-EcAQXGGRlOir7ctL-wNCnoq
     label: GREENIGHT
-  rekan:
-    desc: 今夜もざわざわ♪ レーカン！ラジオ…なんです。
-    url: http://www.onsen.ag/program/re-kan/
-    label: レーカン
-  pleiades:
-    desc: 放課後のプレアデスRADIO
-    url: http://www.onsen.ag/program/pleiades/
-    label: プレアデス
   euphonium:
     desc: 響け！ユーフォラジオ
     url: http://www.onsen.ag/program/euphonium/
@@ -78,14 +66,6 @@ programs:
     desc: アイドルマスターWebラジオ～クレーンキング＆一番くじスペシャル～つかんでひいてぱんぱかぱーん！わたしたちも盛り上げM@S！
     url: http://ch.nicovideo.jp/search/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC?channel_id=ch346&mode=s&sort=f&order=d&type=video
     label: ぱんぱかぱん
-  showbyrock:
-    desc: アニメ SHOW BY ROCK!!
-    url: http://ch.nicovideo.jp/showbyrock_anime/video?rss=2.0
-    label: SHOWBYROCK
-  plamemo:
-    desc: ミチルとザックのプラメモラジオ
-    url: http://hibiki-radio.jp/description/plamemo
-    label: プラメモ
   amina1422:
     desc: 佐藤亜美菜のこの世に小文字はいりません!
     url: http://feeds.feedburner.com/amina1422
