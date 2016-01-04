@@ -24,9 +24,13 @@ class Nicovideo < WebRadio
 		@mp3_file = @file.sub(/\....$/, '.mp3')
 		mp3nize(@file, @mp3_file) do
 			open(@file, 'wb:ASCII-8BIT') do |o|
-				video.get_video do |body|
-					print '.'
-					o.write(body)
+				begin
+					video.get_video do |body|
+						print '.'
+						o.write(body)
+					end
+				rescue Niconico::Video::VideoUnavailableError => e
+					raise DownloadError.new(e.message)
 				end
 			end
 		end
