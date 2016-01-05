@@ -24,7 +24,7 @@ private
 
 		begin
 			media_info = JSON.parse(agent.get("https://vcms-api.hibiki-radio.jp/api/v1/programs/#{program_id}").body,{:symbolize_names => true})
-			serial = media_info[:episode][:name].scan(/(\d+)/).flatten.first
+			serial = media_info[:episode][:name].scan(/([\d\.]+)/).flatten.first
 			video_id = media_info[:episode][:video][:id]
 
 			video_info = JSON.parse(agent.get("https://vcms-api.hibiki-radio.jp/api/v1/videos/play_check?video_id=#{video_id}").body,{:symbolize_names => true})
