@@ -20,7 +20,8 @@ class Nicovideo < WebRadio
 		player_url = get_player_url(@url)
 		video = @nico.video(Pathname(URI(player_url).path).basename.to_s)
 		serial = video.title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
-		@file = "#{name}##{'%02d' % serial}.#{video.type}"
+		appendix = video.title =~ /おまけ/ ? 'a' : ''
+		@file = "#{name}##{'%02d' % serial}#{appendix}.#{video.type}"
 		@mp3_file = @file.sub(/\....$/, '.mp3')
 		mp3nize(@file, @mp3_file) do
 			open(@file, 'wb:ASCII-8BIT') do |o|
