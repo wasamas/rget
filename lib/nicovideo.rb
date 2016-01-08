@@ -17,7 +17,12 @@ class Nicovideo < WebRadio
 	end
 
 	def download(name)
-		player_url = get_player_url(@url)
+		begin
+			player_url = get_player_url(@url)
+		rescue NoMethodError
+			raise DownloadError.new('video not found')
+		end
+
 		video = @nico.video(Pathname(URI(player_url).path).basename.to_s)
 		serial = video.title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
 		appendix = video.title =~ /おまけ/ ? 'a' : ''

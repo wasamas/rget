@@ -42,6 +42,8 @@ class GetWebRadio < Thor
 				end
 			rescue WebRadio::NotFoundError => e
 				$stderr.puts e.message
+			rescue WebRadio::DownloadError => e
+				$stderr.puts e.message
 			end
 		end
 	end
