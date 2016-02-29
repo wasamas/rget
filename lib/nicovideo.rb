@@ -25,7 +25,7 @@ class Nicovideo < WebRadio
 
 		video = @nico.video(Pathname(URI(player_url).path).basename.to_s)
 		serial = video.title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
-		appendix = video.title =~ /おまけ/ ? 'a' : ''
+		appendix = video.title =~ /おまけ|アフタートーク/ ? 'a' : ''
 		@file = "#{name}##{'%02d' % serial}#{appendix}.#{video.type}"
 		@mp3_file = @file.sub(/\....$/, '.mp3')
 		mp3nize(@file, @mp3_file) do
