@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "thor"
   spec.add_runtime_dependency "nokogiri"
-  spec.add_runtime_dependency "niconico", ">= 1.7.0"
+  spec.add_runtime_dependency "niconico", ">= 1.8.0"
   spec.add_runtime_dependency "viddl-rb"
   spec.add_runtime_dependency "pit"
   spec.add_runtime_dependency "dropbox-api", ">= 0.4.6"
