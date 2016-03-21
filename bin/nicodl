@@ -15,8 +15,23 @@ account = Pit::get('nicovideo', :require => {
 })
 nico = Niconico.new(account[:id], account[:pass])
 nico.login
-video = nico.video(Pathname(URI(player_url).path).basename.to_s)
-file = "#{video.title}.#{video.type}".gsub(%r([\\/\?:*"><|]), '_')
-open(file, 'wb:ASCII-8BIT') do |o|
-	video.get_video{|body|o.write(body)}
+video_id = Pathname(URI(player_url).path).basename.to_s
+begin
+	video = nico.video(video_id)
+	file = "#{video.title}.#{video.type}".gsub(%r([\\/\?:*"><|]), '_')
+	open(file, 'wb:ASCII-8BIT') do |o|
+		video.get_video{|body|o.write(body)}
+	end
+rescue Mechanize::ResponseCodeError
+	live = nico.live(video_id)
+	cmd = live.rtmpdump_commands(video_id).first
+	cmd.delete('-V')
+	cmd[cmd.index('-o') + 1] = "./#{video_id}.flv"
+	system(*cmd)
+
+	avconv = ['avconv', '-i', "#{video_id}.flv", '-acodec', 'copy', '-vcodec', 'copy', "#{video_id}.mp4"]
+	if system(*avconv) == nil
+		avconv[0] = 'ffmpeg'
+		system(*avconv)
+	end
 end
