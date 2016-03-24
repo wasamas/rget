@@ -31,7 +31,12 @@ rescue Mechanize::ResponseCodeError
 	if File.exist?("#{video_id}.flv")
 		$stderr.puts "#{video_id}.flv is existent. skipping."
 	else
-		cmd = live.rtmpdump_commands(video_id).first
+		begin
+			cmd = live.rtmpdump_commands(video_id).first
+		rescue Niconico::Live::TicketRetrievingFailed
+			$stderr.puts $!
+			exit 1
+		end
 		cmd[cmd.index('-o') + 1] = "./#{video_id}.flv"
 		begin
 			o, e, s = Open3.capture3(cmd.join(' '))
