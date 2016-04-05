@@ -5,10 +5,6 @@ programs:
     desc: デレラジA (THE IDOLM@STERシンデレラガールズラジオ)
     url: http://hibiki-radio.jp/description/imas_cg
     label: デレラジA
-  imastudio:
-    desc: アイマスタジオ
-    url: http://hibiki-radio.jp/description/idolmaster
-    label: アイスタ
   bahamut:
     desc: ラジオ神撃のバハムート
     url: http://hibiki-radio.jp/description/bahamut
@@ -34,38 +30,18 @@ programs:
     desc: りめいく！
     url: http://seaside-c.jp/program/remake/
     label: りめいく！
-  nakamuland:
-    desc: なかむランド
-    url: http://nakamuland.net/
-    label: なかむランド
   adlib:
     desc: あどりぶ
     url: http://seaside-c.jp/program/adlib/
     label: あどりぶ
-  sidonia:
-    desc: ラジオ シドニアの騎士～綾と綾音の秘密の光合成～
-    url: http://www.onsen.ag/program/sidonia/
-    label: sidonia
-  cinderella:
-    desc: アニメ アイドルマスター シンデレラガールズ
-    url: http://ch.nicovideo.jp/imas-cinderella/video?rss=2.0
-    label: アニデレ
   trysail:
     desc: TrySailのTRYangle harmony
     url: http://ch.nicovideo.jp/search/TrySail?channel_id=ch2585696&mode=s&sort=f&order=d&type=video
     label: トラハモ
-  greenight:
-    desc: 花澤香菜と雨宮天のRADIO GREE NIGHT
-    url: https://www.youtube.com/playlist?list=PLpAhJfIVc-EcAQXGGRlOir7ctL-wNCnoq
-    label: GREENIGHT
-  euphonium:
-    desc: 響け！ユーフォラジオ
-    url: http://www.onsen.ag/program/euphonium/
-    label: ユーフォラジオ
-  panpaka:
-    desc: アイドルマスターWebラジオ～クレーンキング＆一番くじスペシャル～つかんでひいてぱんぱかぱーん！わたしたちも盛り上げM@S！
+  banpresto:
+    desc: アイドルマスターWebラジオ～バンプレストスペシャル～ラジオは……遊びでは、ないんですから
     url: http://ch.nicovideo.jp/search/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC?channel_id=ch346&mode=s&sort=f&order=d&type=video
-    label: ぱんぱかぱん
+    label: バンプレスト
   amina1422:
     desc: 佐藤亜美菜のこの世に小文字はいりません!
     url: http://feeds.feedburner.com/amina1422
