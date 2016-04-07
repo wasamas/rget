@@ -20,19 +20,19 @@ programs:
     podcast: true
   suzakinishi:
     desc: 洲崎西
-    url: http://seaside-c.jp/program/suzakinishi/
+    url: http://ch.nicovideo.jp/search/%E6%B4%B2%E5%B4%8E%E8%A5%BF?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
     label: 洲崎西
   ssc:
     desc: 春佳・彩花のSSちゃんねる
-    url: http://seaside-c.jp/program/ssc/
+    url: http://ch.nicovideo.jp/search/SS%E3%81%A1%E3%82%83%E3%82%93%E3%81%AD%E3%82%8B?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
     label: 春佳・彩花のSSちゃんねる
   remake:
     desc: りめいく！
-    url: http://seaside-c.jp/program/remake/
+    url: http://ch.nicovideo.jp/search/%E3%82%8A%E3%82%81%E3%81%84%E3%81%8F?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
     label: りめいく！
   adlib:
     desc: あどりぶ
-    url: http://seaside-c.jp/program/adlib/
+    url: http://ch.nicovideo.jp/search/%E3%81%82%E3%81%A9%E3%82%8A%E3%81%B6?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
     label: あどりぶ
   trysail:
     desc: TrySailのTRYangle harmony
