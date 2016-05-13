@@ -2,9 +2,9 @@ options:
   mp3nize: ffmpeg -i '$1' -ab 64k '$2'
 programs:
   imas_cg:
-    desc: デレラジA (THE IDOLM@STERシンデレラガールズラジオ)
+    desc: デレラジ☆
     url: http://hibiki-radio.jp/description/imas_cg
-    label: デレラジA
+    label: デレラジ☆
   bahamut:
     desc: ラジオ神撃のバハムート
     url: http://hibiki-radio.jp/description/bahamut
