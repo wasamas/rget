@@ -24,6 +24,7 @@ class Nicovideo < WebRadio
 		end
 
 		video = @nico.video(Pathname(URI(player_url).path).basename.to_s)
+		video.title.tr!('０-９', '0-9')
 		serial = video.title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
 		appendix = video.title =~ /おまけ|アフタートーク/ ? 'a' : ''
 		@file = "#{name}##{'%02d' % serial}#{appendix}.#{video.type}"
