@@ -7,23 +7,43 @@ require 'uri'
 require 'openssl'
 
 class Hibiki < WebRadio
+	def initialize(url, options)
+		super
+		@url = @url.sub(%r|/detail\Z|, '')
+	end
+
 	def download(name)
-		hibiki_download(name, @url.scan(%r|/([^/]*)$|).flatten.first)
+		hibiki_download(name, Pathname(@url).basename.to_s)
+	end
+
+	def dump
+		tag = Pathname(@url).basename.to_s.gsub(%r|[-/]|, '_')
+		agent = Mechanize.new
+		media_info = hibiki_media_info(agent, tag)
+
+		return {
+			tag => {
+				'desc' => media_info[:name],
+				'url' => @url,
+				'label' => tag
+			}
+		}
 	end
 
 private
 	def header
-		{
-			'X-Requested-With' => 'XMLHttpRequest',
-		}
+		{'X-Requested-With' => 'XMLHttpRequest'}
+	end
+
+	def hibiki_media_info(agent, program_id)
+		agent.request_headers = header
+		JSON.parse(agent.get("https://vcms-api.hibiki-radio.jp/api/v1/programs/#{program_id}").body,{:symbolize_names => true})
 	end
 
 	def hibiki_download(name, program_id)
-		agent = Mechanize.new
-		agent.request_headers = header
-
 		begin
-			media_info = JSON.parse(agent.get("https://vcms-api.hibiki-radio.jp/api/v1/programs/#{program_id}").body,{:symbolize_names => true})
+			agent = Mechanize.new
+			media_info = hibiki_meta_info(agent, program_id)
 			serial = media_info[:episode][:name].scan(/([\d\.]+)/).flatten.first
 			video_id = media_info[:episode][:video][:id]
 
