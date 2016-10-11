@@ -43,7 +43,7 @@ private
 	def hibiki_download(name, program_id)
 		begin
 			agent = Mechanize.new
-			media_info = hibiki_meta_info(agent, program_id)
+			media_info = hibiki_media_info(agent, program_id)
 			serial = media_info[:episode][:name].scan(/([\d\.]+)/).flatten.first
 			video_id = media_info[:episode][:video][:id]
 
@@ -61,6 +61,7 @@ private
 			key = agent.get_file(key_url)
 			iv = m3u8.scan(/IV=0x(.*)$/).flatten.pack("H*")
 		rescue NoMethodError
+			$stderr.puts $!
 			raise NotFoundError.new("no radio program in #{program_id}.")
 		end
 
