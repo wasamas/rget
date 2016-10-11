@@ -43,6 +43,23 @@ class Nicovideo < WebRadio
 		end
 	end
 
+	def dump
+		begin
+			tag = Pathname(@url).basename.to_s.gsub(%r|[-/]|, '_')
+			rss_url = "#{@url}/video?rss=2.0"
+			desc = RSS::Parser.parse(rss_url).channel.dc_creator
+			return {
+				tag => {
+					'desc' => desc,
+					'url' => rss_url,
+					'label' => tag
+				}
+			}
+		rescue RSS::NotWellFormedError
+			raise
+		end
+	end
+
 private
 	def get_player_url(list_url)
 		begin

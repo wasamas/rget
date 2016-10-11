@@ -36,13 +36,17 @@ class WebRadio
 		raise 'do not instanciate directly, use WebRadio method.' if self.class == WebRadio
 		@url = url
 		@options = options
-		if @options.path =~ %r|^dropbox://|
+		if !@options.dump && @options.path =~ %r|^dropbox://|
 			require 'dropbox'
 			@dropbox = DropboxAuth.client
 		end
 	end
 
 	def download(name)
+		raise 'not implemented.'
+	end
+
+	def dump
 		raise 'not implemented.'
 	end
 

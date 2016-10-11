@@ -8,6 +8,19 @@ class Onsen < WebRadio
 		onsen_download(name, @url.scan(%r|/([^/]*)/$|).flatten.first)
 	end
 
+	def dump
+		tag = Pathname(@url).basename.to_s.gsub(%r|[-/]|, '_')
+		html = Nokogiri(open(@url, &:read))
+		title = html.css('#outLineWrap h1').text
+		return {
+			tag => {
+				'desc' => title,
+				'url' => @url,
+				'label' => tag
+			}
+		}
+	end
+
 private
 	def onsen_download(name, program_id)
 		html = Nokogiri(open('http://onsen.ag/', 'User-Agent' => 'iPhone', &:read))
