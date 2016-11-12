@@ -15,7 +15,17 @@ account = Pit::get('nicovideo', :require => {
 	:pass => 'your nicovideo password'
 })
 nico = Niconico.new(account[:id], account[:pass])
-nico.login
+retry_count = 0
+begin
+	nico.login
+rescue Mechanize::ResponseReadError
+	retry_count += 1
+	if retry_count < 10
+		puts "login faiure. retring(#{retry_count})"
+		sleep 5
+		retry
+	end
+end
 
 video_id = Pathname(URI(player_url).path).basename.to_s
 begin
