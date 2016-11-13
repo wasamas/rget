@@ -38,43 +38,46 @@ begin
 rescue Mechanize::ResponseCodeError
 	# live streaming time-shift
 	live = nico.live(video_id)
-	if File.exist?("#{video_id}.flv")
-		$stderr.puts "#{video_id}.flv is existent. skipping."
-	else
-		begin
-			cmd = live.rtmpdump_commands(video_id).first
-		rescue Niconico::Live::TicketRetrievingFailed
-			$stderr.puts $!
-			exit 1
-		end
-		cmd[cmd.index('-o') + 1] = "./#{video_id}.flv"
-		begin
-			o, e, s = Open3.capture3(cmd.join(' '))
-			unless s.exitstatus == 0
-				$stderr.puts e
-				exit 1
-			end
-		rescue Errno::ENOENT
-			$stderr.puts $!
-			exit 1
-		end
-	end
-
-	avconv = 'avconv'
-	args = " -i '#{video_id}.flv' -acodec copy -vcodec copy '#{live.title}.mp4'"
 	begin
-		o, e, s = Open3.capture3(avconv + args)
-		unless s.exitstatus == 0
-			$stderr.puts e
-			exit 1
+		live.rtmpdump_commands(video_id).each_with_index do |cmd, i|
+			src = "#{video_id}-#{i+1}.flv"
+			dst = "#{live.title.gsub(%r|/|, '_')}-#{i+1}.mp4"
+			unless File.exist?(src)
+				cmd[cmd.index('-o') + 1] = "./#{src}"
+				begin
+					o, e, s = Open3.capture3(cmd.join(' '))
+					unless s.exitstatus == 0
+						$stderr.puts e
+						next
+					end
+				rescue Errno::ENOENT # rtmdump command not found
+					$stderr.puts $!
+					exit 1
+				end
+			else
+				$stderr.puts "#{src} is existent. skipping."
+			end
+
+			avconv = 'avconv'
+			args = " -i '#{src}' -acodec copy -vcodec copy '#{dst}'"
+			begin
+				o, e, s = Open3.capture3(avconv + args)
+				unless s.exitstatus == 0
+					$stderr.puts e
+					next
+				end
+				File.delete(src)
+			rescue Errno::ENOENT
+				if avconv == 'ffmpeg'
+					$stderr.puts $!
+				else
+					avconv = 'ffmpeg'
+					retry
+				end
+			end
 		end
-		File.delete("#{video_id}.flv")
-	rescue Errno::ENOENT
-		if avconv == 'ffmpeg'
-			$stderr.puts $!
-		else
-			avconv = 'ffmpeg'
-			retry
-		end
+	rescue Niconico::Live::TicketRetrievingFailed
+		$stderr.puts $!
+		exit 2
 	end
 end
