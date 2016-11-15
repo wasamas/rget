@@ -63,6 +63,7 @@ rescue Mechanize::ResponseCodeError
 			begin
 				o, e, s = Open3.capture3(avconv + args)
 				unless s.exitstatus == 0
+					raise Errno::ENOENT.new(avconv) if e =~ /: not found/
 					$stderr.puts e
 					next
 				end
