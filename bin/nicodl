@@ -58,21 +58,20 @@ rescue Mechanize::ResponseCodeError
 				$stderr.puts "#{src} is existent. skipping."
 			end
 
-			avconv = 'avconv'
-			args = " -i '#{src}' -acodec copy -vcodec copy '#{dst}'"
+			cmd = 'ffmpeg'
+			args = ['-i', src, '-acodec', 'copy', '-vcodec', 'copy', dst]
 			begin
-				o, e, s = Open3.capture3(avconv + args)
+				o, e, s = Open3.capture3(cmd, *args)
 				unless s.exitstatus == 0
-					raise Errno::ENOENT.new(avconv) if e =~ /: not found/
 					$stderr.puts e
 					next
 				end
 				File.delete(src)
 			rescue Errno::ENOENT
-				if avconv == 'ffmpeg'
-					$stderr.puts $!
-				else
-					avconv = 'ffmpeg'
+				if cmd == 'avconv'
+					$stderr.puts "ffmpeg or avconv not found."
+				else # retry with avconv command instead of ffmpeg
+					cmd = 'avconv'
 					retry
 				end
 			end
