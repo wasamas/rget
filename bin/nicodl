@@ -41,7 +41,7 @@ rescue Mechanize::ResponseCodeError
 	begin
 		live.rtmpdump_commands(video_id).each_with_index do |cmd, i|
 			src = "#{video_id}-#{i+1}.flv"
-			dst = "#{live.title.concat("'").gsub(%r([\\/\?:*"'><|]), '_')}-#{i+1}.mp4"
+			dst = "#{live.title.gsub(%r([\\/\?:*"'><|]), '_')}-#{i+1}.mp4"
 			unless File.exist?(src)
 				cmd[cmd.index('-o') + 1] = "./#{src}"
 				begin
