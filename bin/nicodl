@@ -31,7 +31,7 @@ video_id = Pathname(URI(player_url).path).basename.to_s
 begin
 	# downloading video
 	video = nico.video(video_id)
-	file = "#{video.title}.#{video.type}".gsub(%r([\\/\?:*"><|]), '_')
+	file = "#{video.title}.#{video.type}".gsub(%r([\\/\?:*"'><|]), '_')
 	open(file, 'wb:ASCII-8BIT') do |o|
 		video.get_video{|body|o.write(body)}
 	end
@@ -41,11 +41,11 @@ rescue Mechanize::ResponseCodeError
 	begin
 		live.rtmpdump_commands(video_id).each_with_index do |cmd, i|
 			src = "#{video_id}-#{i+1}.flv"
-			dst = "#{live.title.gsub(%r|/|, '_')}-#{i+1}.mp4"
+			dst = "#{live.title.concat("'").gsub(%r([\\/\?:*"'><|]), '_')}-#{i+1}.mp4"
 			unless File.exist?(src)
 				cmd[cmd.index('-o') + 1] = "./#{src}"
 				begin
-					o, e, s = Open3.capture3(cmd.join(' '))
+					o, e, s = Open3.capture3(*cmd)
 					unless s.exitstatus == 0
 						$stderr.puts e
 						next
