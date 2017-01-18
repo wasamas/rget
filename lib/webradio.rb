@@ -24,9 +24,6 @@ class WebRadio
 		when %r[nicovideo\.jp]
 			require 'nicovideo'
 			Nicovideo.new(url, options)
-		when %r[www\.youtube\.com]
-			require 'youtube'
-			YouTube.new(url, options)
 		else
 			raise 'unsupported url.'
 		end
