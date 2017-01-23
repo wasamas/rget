@@ -35,7 +35,7 @@ begin
 	open(file, 'wb:ASCII-8BIT') do |o|
 		video.get_video{|body|o.write(body)}
 	end
-rescue Mechanize::ResponseCodeError
+rescue Mechanize::ResponseCodeError, Errno::EISDIR
 	# live streaming time-shift
 	live = nico.live(video_id)
 	begin
