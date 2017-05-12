@@ -47,3 +47,7 @@ programs:
     url: http://feeds.feedburner.com/amina1422
     label: よにこも
     podcast: true
+  takamori:
+    desc: 高森重戦舎 (声優バラエティ専門「声フレ」チャンネル内)
+    url: https://freshlive.tv/seifre
+    label: 高森重戦舎
