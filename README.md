@@ -1,6 +1,13 @@
 # rget
 
-Downloading newest radio programs on the web. Supported radio stations are hibiki, animate, onsen, seaside communications and niconico.
+Downloading newest radio programs on the web. Supported radio stations are:
+
+* hibiki
+* animate
+* onsen
+* seaside communications
+* niconico
+* freshlive.tv
 
 If you want to save files as MP3, needs `ffmpeg` command.
 
