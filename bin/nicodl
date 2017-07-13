@@ -34,7 +34,7 @@ ARGV.each do |player_url|
 	begin
 		# downloading video
 		video = nico.video(video_id)
-		file = "#{video.title}.#{video.type}".gsub(%r([\\/\?:*"'><|]), '_')
+		file = "#{video.title || 'unknown'}.#{video.type}".gsub(%r([\\/\?:*"'><|]), '_')
 		open(file, 'wb:ASCII-8BIT') do |o|
 			video.get_video{|body|o.write(body)}
 		end

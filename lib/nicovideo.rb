@@ -24,9 +24,10 @@ class Nicovideo < WebRadio
 		end
 
 		video = @nico.video(Pathname(URI(player_url).path).basename.to_s)
-		video.title.tr!('０-９', '0-9')
-		serial = video.title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
-		appendix = video.title =~ /おまけ|アフタートーク/ ? 'a' : ''
+		title = video.title || alt_title(player_url)
+		title.tr!('０-９', '0-9')
+		serial = title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
+		appendix = title =~ /おまけ|アフタートーク/ ? 'a' : ''
 		@file = "#{name}##{'%02d' % serial}#{appendix}.#{video.type}"
 		@mp3_file = @file.sub(/\....$/, '.mp3')
 		mp3nize(@file, @mp3_file) do
@@ -72,5 +73,10 @@ private
 			raise WebRadio::DownloadError.new('video not found in this pege') unless url
 			return "http://www.nicovideo.jp#{url}"
 		end
+	end
+
+	def alt_title(player_url)
+		html = open(player_url).read
+		html.scan(%r|<title>(.*)</title>|m).flatten.first || ''
 	end
 end
