@@ -10,12 +10,18 @@ class FreshLive < WebRadio
 	end
 
 	def download(name)
-		meta = program_meta(program_id)
-		serial = meta['data']['title'].scan(/\d+$/).first.to_i
-		open("#{name}##{'%02d' % serial}.ts", 'wb') do |w|
-			ts_list(meta['data']['archiveStreamUrl']).each do |u|
-				w.write(open(u, 'rb').read)
+		offset = 0
+		begin
+			meta = program_meta(program_id(offset))
+			serial = meta['data']['title'].scan(/\d+$/).first.to_i
+			open("#{name}##{'%02d' % serial}.ts", 'wb') do |w|
+				ts_list(meta['data']['archiveStreamUrl']).each do |u|
+					w.write(open(u, 'rb').read)
+				end
 			end
+		rescue OpenURI::HTTPError
+			offset += 1
+			retry
 		end
 	end
 
@@ -33,8 +39,8 @@ class FreshLive < WebRadio
 	end
 
 private
-	def program_id
-		Pathname(@doc.css('.ProgramTitle a').attr('href').value).basename.to_s
+	def program_id(offset = 0)
+		Pathname(@doc.css('.ProgramTitle a')[offset].attr('href')).basename.to_s
 	end
 
 	def program_meta(id)
