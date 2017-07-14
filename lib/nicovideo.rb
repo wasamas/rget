@@ -23,8 +23,9 @@ class Nicovideo < WebRadio
 			raise DownloadError.new('video not found')
 		end
 
-		video = @nico.video(Pathname(URI(player_url).path).basename.to_s)
-		title = video.title || alt_title(player_url)
+		video_id = Pathname(URI(player_url).path).basename.to_s
+		video = @nico.video(video_id)
+		title = video.title || alt_title(video_id)
 		title.tr!('０-９', '0-9')
 		serial = title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
 		appendix = title =~ /おまけ|アフタートーク/ ? 'a' : ''
@@ -75,8 +76,8 @@ private
 		end
 	end
 
-	def alt_title(player_url)
-		html = open(player_url).read
-		html.scan(%r|<title>(.*)</title>|m).flatten.first || ''
+	def alt_title(video_id)
+		xml = open("http://ext.nicovideo.jp/api/getthumbinfo/#{video_id}").read
+		xml.scan(%r|<title>(.*)</title>|m).flatten.first || video_id
 	end
 end
