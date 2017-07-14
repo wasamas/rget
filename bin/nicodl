@@ -5,6 +5,11 @@ require 'niconico'
 require 'pathname'
 require 'open3'
 
+def alt_title(video_id)
+	xml = open("http://ext.nicovideo.jp/api/getthumbinfo/#{video_id}").read
+	xml.scan(%r|<title>(.*)</title>|m).flatten.first || video_id
+end
+
 if ARGV.size == 0
 	$stderr.puts "usage: nicodl <URL> [URL...]"
 	exit -1
@@ -34,7 +39,7 @@ ARGV.each do |player_url|
 	begin
 		# downloading video
 		video = nico.video(video_id)
-		file = "#{video.title || 'unknown'}.#{video.type}".gsub(%r([\\/\?:*"'><|]), '_')
+		file = "#{video.title || alt_title(video_id)}.#{video.type}".gsub(%r([\\/\?:*"'><|]), '_')
 		open(file, 'wb:ASCII-8BIT') do |o|
 			video.get_video{|body|o.write(body)}
 		end
