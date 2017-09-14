@@ -1,5 +1,5 @@
 options:
-  mp3nize: ffmpeg -i '$1' -ab 64k '$2'
+  mp3nize: ffmpeg -i '$1' -vn -acodec copy '$2' || ffmpeg -i '$1' -vn -y -ab 64k '$2'
 programs:
   imas_cg:
     desc: デレラジ☆
