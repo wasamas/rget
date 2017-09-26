@@ -11,7 +11,12 @@ Downloading newest radio programs on the web. Supported radio stations are:
 
 If you want to save files as MP3, needs `ffmpeg` command.
 
-For customize radio programs, copy `rget.yaml` to `~/.rget` or current work directory and edit it.
+For customize radio programs, copy `rget.yaml` to `~/.rget` or current work directory and edit it. config file search paths are:
+
+* RGET\_CONFIG environment variable
+* ./rget.yaml
+* ~/.rget
+* <command path>/../rget.yaml (for gem)
 
 ## Installation
 
