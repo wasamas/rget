@@ -3,7 +3,6 @@
 Downloading newest radio programs on the web. Supported radio stations are:
 
 * hibiki
-* animate
 * onsen
 * niconico
 * freshlive.tv

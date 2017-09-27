@@ -13,9 +13,6 @@ class WebRadio
 		when %r[^http://hibiki-radio\.jp/]
 			require 'hibiki'
 			Hibiki.new(params, options)
-		when %r[^http://sp\.animate\.tv/]
-			require 'animate'
-			Animate.new(params, options)
 		when %r[^http://(www\.)?onsen\.ag/program/]
 			require 'onsen'
 			Onsen.new(params, options)
