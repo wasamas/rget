@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = "3.2.3"
   spec.authors       = ["TADA Tadashi"]
   spec.email         = ["t@tdtds.jp"]
-  spec.description   = %q{Downloading newest radio programs on the web. Supported radio stations are hibiki, animate, onsen, seaside communications and niconico.}
+  spec.description   = %q{Downloading newest radio programs on the web. Supported radio stations are hibiki, animate, onsen, niconico and freshlive.}
   spec.summary       = %q{Downloading newest radio programs on the web.}
   spec.homepage      = "https://bitbucket.org/tdtds/rget"
   spec.license       = "GPL"
