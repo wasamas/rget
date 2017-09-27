@@ -172,8 +172,8 @@ private
 	end
 end
 
-def WebRadio(url, options)
-	radio = WebRadio.instance(url, options)
+def WebRadio(params, options)
+	radio = WebRadio.instance(params, options)
 	yield radio if block_given?
 	radio
 end

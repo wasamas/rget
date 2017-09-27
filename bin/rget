@@ -50,7 +50,7 @@ class GetWebRadio < Thor
 
 	desc 'yaml', 'dump YAML of specified URL'
 	def yaml(url)
-		dump = WebRadio(url, OpenStruct.new({dump: true})).dump
+		dump = WebRadio({'url'=>url}, OpenStruct.new({dump: true})).dump
 		puts YAML.dump(dump).lines.drop(1).map{|l| "  #{l}"}
 	end
 end
