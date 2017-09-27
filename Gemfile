@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in get-webradio2.gemspec
+# Specify your gem's dependencies in rget.gemspec
 gemspec
