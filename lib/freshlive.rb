@@ -9,12 +9,12 @@ class FreshLive < WebRadio
 		@doc = Nokogiri(open(@archive).read).root
 	end
 
-	def download(name)
+	def download
 		offset = 0
 		begin
 			meta = program_meta(program_id(offset))
 			serial = meta['data']['title'].scan(/\d+$/).first.to_i
-			open("#{name}##{'%02d' % serial}.ts", 'wb') do |w|
+			open("#{@label}##{'%02d' % serial}.ts", 'wb') do |w|
 				ts_list(meta['data']['archiveStreamUrl']).each do |u|
 					w.write(open(u, 'rb').read)
 				end

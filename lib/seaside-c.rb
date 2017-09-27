@@ -1,7 +1,7 @@
 require 'webradio'
 
 class SeasideCommnunications < WebRadio
-	def download(name)
+	def download
 		html = open(@url, &:read)
 		playlist_url, serial = html.scan(%r[(http:.*?\_(\d+).wax)]).flatten
 		unless playlist_url
@@ -12,7 +12,7 @@ class SeasideCommnunications < WebRadio
 		playlist = open(playlist_url, &:read)
 		wma_url, = playlist.scan(%r[http://.*?\.wma])
 
-		@wma_file = "#{name}##{serial}.wma"
+		@wma_file = "#{@label}##{serial}.wma"
 		@mp3_file = @wma_file.sub(/\.wma$/, '.mp3')
 		mp3nize(@wma_file, @mp3_file) do
 			open(@wma_file, 'wb:ASCII-8BIT') do |wma|

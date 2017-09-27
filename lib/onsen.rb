@@ -4,8 +4,13 @@ require 'webradio'
 require 'nokogiri'
 
 class Onsen < WebRadio
-	def download(name)
-		onsen_download(name, @url.scan(%r|/([^/]*)/$|).flatten.first)
+	def initialize(params, options)
+		super
+		@cover = "//*[@id='newProgramWrap']//img[1]/@src" unless @cover
+	end
+
+	def download
+		onsen_download(@label, @url.scan(%r|/([^/]*)/$|).flatten.first)
 	end
 
 	def dump

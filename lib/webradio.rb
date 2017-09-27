@@ -2,39 +2,42 @@
 
 require 'open-uri'
 require 'open3'
+require 'mp3info'
 
 class WebRadio
 	class NotFoundError < StandardError; end
 	class DownloadError < StandardError; end
 
-	def self.instance(url, options)
-		case url
+	def self.instance(params, options)
+		case params['url']
 		when %r[^http://hibiki-radio\.jp/]
 			require 'hibiki'
-			Hibiki.new(url, options)
+			Hibiki.new(params, options)
 		when %r[^http://sp\.animate\.tv/]
 			require 'animate'
-			Animate.new(url)
+			Animate.new(params, options)
 		when %r[^http://(www\.)?onsen\.ag/program/]
 			require 'onsen'
-			Onsen.new(url, options)
+			Onsen.new(params, options)
 		when %r[^http://seaside-c\.jp/program/], %r[http://nakamuland\.net/]
 			require 'seaside-c'
-			SeasideCommnunications.new(url, options)
+			SeasideCommnunications.new(params, options)
 		when %r[nicovideo\.jp]
 			require 'nicovideo'
-			Nicovideo.new(url, options)
+			Nicovideo.new(params, options)
 		when %r[^https://freshlive\.tv/]
 			require 'freshlive'
-			FreshLive.new(url, options)
+			FreshLive.new(params, options)
 		else
-			raise 'unsupported url.'
+			raise "unsupported url: #{params['url']}"
 		end
 	end
 
-	def initialize(url, options)
+	def initialize(params, options)
 		raise 'do not instanciate directly, use WebRadio method.' if self.class == WebRadio
-		@url = url
+		@url = params['url']
+		@label = params['label']
+		@cover = params['cover']
 		@options = options
 		if !@options.dump && @options.path =~ %r|^dropbox://|
 			require 'dropbox'
@@ -42,7 +45,7 @@ class WebRadio
 		end
 	end
 
-	def download(name)
+	def download
 		raise 'not implemented.'
 	end
 
@@ -79,6 +82,7 @@ private
 			end
 		end
 		if !@options.mp3 || src == dst
+			add_cover(dst)
 			move(src) if @options.path
 			return
 		end
@@ -96,6 +100,7 @@ private
 		result = Open3.capture3(ffmpeg)
 		if result[2].to_i == 0
 			File.delete(src) if delete_src
+			add_cover(dst)
 			puts "done."
 		else
 			File.delete(dst) if File.exist?(dst)
@@ -104,6 +109,35 @@ private
 			return
 		end
 		move(dst) if @options.path
+	end
+
+	def add_cover(dst)
+		begin
+			mp3 = Mp3Info.new(dst)
+			mp3.tag.title = File.basename(dst, '.mp3')
+			mp3.tag2.add_picture(cover_image) if @cover
+			mp3.close
+		rescue
+			$stderr.puts "add mp3 info failed (#$!)"
+		end
+	end
+
+	def cover_image
+		if @cover =~ /^https?:/
+			cover_image_as_url()
+		else # XPath
+			cover_image_as_xpath()
+		end
+	end
+
+	def cover_image_as_url
+		open(@cover, 'rb', &:read)
+	end
+
+	def cover_image_as_xpath
+		html = Nokogiri(open(@url, &:read))
+		image_url = (URI(@url) + (html.xpath(@cover).text)).to_s
+		open(image_url, 'r:ASCII-8BIT', &:read)
 	end
 
 	def exist?(dst)

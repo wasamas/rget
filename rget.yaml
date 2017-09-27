@@ -42,12 +42,11 @@ programs:
     desc: アイドルマスターWebラジオ～バンプレストスペシャル～ラジオは……遊びでは、ないんですから
     url: http://ch.nicovideo.jp/search/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC?channel_id=ch346&mode=s&sort=f&order=d&type=video
     label: バンプレスト
-  amina1422:
-    desc: 佐藤亜美菜のこの世に小文字はいりません!
-    url: http://feeds.feedburner.com/amina1422
-    label: よにこも
-    podcast: true
   takamori:
     desc: 高森重戦舎 (声優バラエティ専門「声フレ」チャンネル内)
     url: https://freshlive.tv/seifre
     label: 高森重戦舎
+  matsui:
+    desc: ラジオ「松井恵理子のにじらじっ！」
+    url: http://www.onsen.ag/program/matsui/
+    label: 松井恵理子のにじらじ

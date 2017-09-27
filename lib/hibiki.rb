@@ -12,8 +12,8 @@ class Hibiki < WebRadio
 		@url = @url.sub(%r|/detail\Z|, '')
 	end
 
-	def download(name)
-		hibiki_download(name, Pathname(@url).basename.to_s)
+	def download
+		hibiki_download(@label, Pathname(@url).basename.to_s)
 	end
 
 	def dump
@@ -37,13 +37,19 @@ private
 
 	def hibiki_media_info(agent, program_id)
 		agent.request_headers = header
-		JSON.parse(agent.get("https://vcms-api.hibiki-radio.jp/api/v1/programs/#{program_id}").body,{:symbolize_names => true})
+		json = agent.get("https://vcms-api.hibiki-radio.jp/api/v1/programs/#{program_id}").body
+		JSON.parse(json, symbolize_names: true)
+	end
+
+	def find_cover(media_info)
+		media_info[:episode][:episode_parts].map{|s|s[:pc_image_url]}.reject(&:empty?)[0]
 	end
 
 	def hibiki_download(name, program_id)
 		begin
 			agent = Mechanize.new
 			media_info = hibiki_media_info(agent, program_id)
+			@cover = find_cover(media_info) unless @cover
 			serial = media_info[:episode][:name].scan(/([\d\.]+)/).flatten.first
 			video_id = media_info[:episode][:video][:id]
 

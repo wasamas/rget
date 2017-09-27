@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require 'mp3info'
+require 'open-uri'
+
+mp3 = ARGV.shift
+cover = ARGV.shift
+m = Mp3Info.new(mp3)
+m.tag.title = File.basename(mp3, '.mp3')
+m.tag2.add_picture(open(cover, 'r:ASCII-8BIT').read) if cover
+m.close

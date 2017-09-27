@@ -9,9 +9,9 @@ class Podcast
 		yield self if block_given?
 	end
 
-	def download(name = nil)
+	def download
 		rss = RSS::Parser.parse(@url)
-		name = rss.channel.title unless name
+		label = @label || rss.channel.title
 		episode = rss.items.first
 		serial = episode.link.scan(%r|\d+[^/\.]*|).flatten.first
 		if serial.to_i > 2000 # may be year
@@ -22,7 +22,7 @@ class Podcast
 			return
 		end
 
-		file = "#{name}##{serial}.mp3"
+		file = "#{label}##{serial}.mp3"
 		if File.exist? file
 			puts "'#{file}' is existent. skipped."
 			return

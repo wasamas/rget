@@ -33,13 +33,12 @@ class GetWebRadio < Thor
 	config['programs'].each do |command, params|
 		desc command, params['desc']
 		define_method(command) do
-			url = params['url']
 			opts = OpenStruct.new(config['options'].merge(options))
 			begin
 				if params['podcast']
-					Podcast.new(url, opts){|media|media.download(params['label'])}
+					Podcast.new(params, opts){|media|media.download}
 				else
-					WebRadio(url, opts){|media|media.download(params['label'])}
+					WebRadio(params, opts){|media|media.download}
 				end
 			rescue WebRadio::NotFoundError => e
 				$stderr.puts e.message

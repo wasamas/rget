@@ -6,7 +6,7 @@ require 'open-uri'
 require 'rss'
 
 class Nicovideo < WebRadio
-	def initialize(url, options)
+	def initialize(params, options)
 		account = Pit::get('nicovideo', :require => {
 			:id => 'your nicovideo id',
 			:pass => 'your nicovideo password'
@@ -16,20 +16,21 @@ class Nicovideo < WebRadio
 		super
 	end
 
-	def download(name)
+	def download
 		begin
 			player_url = get_player_url(@url)
 		rescue NoMethodError
 			raise DownloadError.new('video not found')
 		end
-
 		video_id = Pathname(URI(player_url).path).basename.to_s
+		@cover = thumbinfo(video_id, 'thumbnail_url') unless @cover
+
 		video = @nico.video(video_id)
-		title = video.title || alt_title(video_id)
+		title = video.title || thumbinfo(video_id, 'title') || video_id
 		title.tr!('０-９', '0-9')
 		serial = title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
 		appendix = title =~ /おまけ|アフタートーク/ ? 'a' : ''
-		@file = "#{name}##{'%02d' % serial}#{appendix}.#{video.type}"
+		@file = "#{@label}##{'%02d' % serial}#{appendix}.#{video.type}"
 		@mp3_file = @file.sub(/\....$/, '.mp3')
 		mp3nize(@file, @mp3_file) do
 			open(@file, 'wb:ASCII-8BIT') do |o|
@@ -76,8 +77,12 @@ private
 		end
 	end
 
-	def alt_title(video_id)
+	def thumbinfo(video_id, elem = nil)
 		xml = open("http://ext.nicovideo.jp/api/getthumbinfo/#{video_id}").read
-		xml.scan(%r|<title>(.*)</title>|m).flatten.first || video_id
+		if elem
+			return xml.scan(%r|<#{elem}>(.*)</#{elem}>|m).flatten.first
+		else
+			return xml
+		end
 	end
 end
