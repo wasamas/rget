@@ -2,9 +2,27 @@
 require 'mp3info'
 require 'open-uri'
 
+if ARGV.size < 1
+	puts <<~USAGE
+		usage: add_mp3info <mp3_file> [cover_photo]
+		
+		mp3_file:    *.mp3 file in local
+		cover_photo: JPEG or PNG file path or URL
+		USAGE
+	exit -1
+end
+
 mp3 = ARGV.shift
 cover = ARGV.shift
-m = Mp3Info.new(mp3)
-m.tag.title = File.basename(mp3, '.mp3')
-m.tag2.add_picture(open(cover, 'r:ASCII-8BIT').read) if cover
-m.close
+begin
+	m = Mp3Info.new(mp3)
+	m.tag.title = File.basename(mp3, '.mp3')
+	m.tag2.add_picture(open(cover, 'r:ASCII-8BIT').read) if cover
+	m.close
+rescue Errno::ENOENT
+	$stderr.puts "file not found: #{mp3}"
+	exit -2
+rescue Mp3InfoError
+	$stderr.puts "#{$!.message}: #{mp3}"
+	exit -3
+end
