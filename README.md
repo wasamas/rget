@@ -18,24 +18,32 @@ For customize radio programs, copy `rget.yaml` to `~/.rget` or current work dire
 
 ## Installation
 
-    $ gem install rget
+  $ gem install rget
 
 ## Usage
+### rget command
 
-    # download and convert to mp3 THE iDOLM@STER Cinderella Girls Radio
-    rget imas_cg
+  # save a template of the radio program configration
+  rget yaml http://example.com/radio >> ~/.rget
 
-    # download imastudio only (saved .m4a file)
-    rget imastudio --no-mp3
+  # download and convert to mp3 THE iDOLM@STER Cinderella Girls Radio
+  rget imas_cg
 
-    # srore mp3 file to specified directory
-    rget trysail --path=/home/hoge/radio
+  # download takamori only (saved movie file)
+  rget takamori --no-mp3
 
-    # store mp3 file to radio folder of Dropbox
-    rget suzakinishi --path=dropbpx://radio
+  # srore mp3 file to specified directory
+  rget suzakinishi --path=/home/hoge/radio
 
-    # show a template of the radio program configration
-    rget yaml http://example.com/radio
+  # store mp3 file to radio folder of Dropbox
+  rget matsui --path=dropbpx://radio
 
-    # download nicovideo live program by nicodl command
-    nicodl http://live.nicovideo.jp/watch/lv999999999
+### nicodl command
+
+  # download nicovideo live program
+  nicodl http://live.nicovideo.jp/watch/lv999999999
+
+### add\_mp3info
+
+  # set cover photo into mp3 file
+  add_mp3info sample.mp3 cover.jpg
