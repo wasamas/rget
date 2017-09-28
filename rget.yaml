@@ -5,23 +5,24 @@ programs:
     desc: デレラジ☆
     url: http://hibiki-radio.jp/description/imas_cg
     label: デレラジ☆
-  bahamut:
-    desc: ラジオ神撃のバハムート
-    url: http://hibiki-radio.jp/description/bahamut
-    label: バハムート
-  st501:
-    desc: 501st JFW.OA～第五○一統合戦闘航空団公式放送～
-    url: http://hibiki-radio.jp/description/501st
-    label: ストパン501
-  rebuild:
-    desc: Rebuild.fm
-    url: http://feeds.rebuild.fm/rebuildfm
-    label: rebuildfm
-    podcast: true
+  matsui:
+    desc: ラジオ「松井恵理子のにじらじっ！」
+    url: http://www.onsen.ag/program/matsui/
+    label: 松井恵理子のにじらじ
+    cover: //*[@id='newProgramWrap']//img[1]/@src
   suzakinishi:
     desc: 洲崎西
     url: http://ch.nicovideo.jp/search/%E6%B4%B2%E5%B4%8E%E8%A5%BF?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
     label: 洲崎西
+    cover: https://pbs.twimg.com/profile_images/836214019849506818/kXSasy1Y.jpg
+  takamori:
+    desc: 高森重戦舎 (声優バラエティ専門「声フレ」チャンネル内)
+    url: https://freshlive.tv/seifre
+    label: 高森重戦舎
+  bahamut:
+    desc: ラジオ神撃のバハムート
+    url: http://hibiki-radio.jp/description/bahamut
+    label: バハムート
   ssc:
     desc: 春佳・彩花のSSちゃんねる
     url: http://ch.nicovideo.jp/search/SS%E3%81%A1%E3%82%83%E3%82%93%E3%81%AD%E3%82%8B?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
@@ -39,14 +40,11 @@ programs:
     url: http://ch.nicovideo.jp/search/TrySail?channel_id=ch2585696&mode=s&sort=f&order=d&type=video
     label: トラハモ
   banpresto:
-    desc: アイドルマスターWebラジオ～バンプレストスペシャル～ラジオは……遊びでは、ないんですから
-    url: http://ch.nicovideo.jp/search/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC?channel_id=ch346&mode=s&sort=f&order=d&type=video
+    desc: アイドルマスターWebラジオ～バンプレストスペシャル～
+    url: http://ch.nicovideo.jp/search/IDOLM@STER?channel_id=ch346&mode=s&sort=f&order=d&type=video
     label: バンプレスト
-  takamori:
-    desc: 高森重戦舎 (声優バラエティ専門「声フレ」チャンネル内)
-    url: https://freshlive.tv/seifre
-    label: 高森重戦舎
-  matsui:
-    desc: ラジオ「松井恵理子のにじらじっ！」
-    url: http://www.onsen.ag/program/matsui/
-    label: 松井恵理子のにじらじ
+  rebuild:
+    desc: Rebuild.fm
+    url: http://feeds.rebuild.fm/rebuildfm
+    label: rebuildfm
+    podcast: true
