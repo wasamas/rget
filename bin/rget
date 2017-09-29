@@ -29,8 +29,8 @@ class GetWebRadio < Thor
 		exit 1
 	end
 
-	config = YAML::load_file(config_file)
-	config['programs'].each do |command, params|
+	config = {'options' => {}, 'programs' => {}}.merge(YAML::load_file(config_file) || {})
+	(config['programs'] || {}).each do |command, params|
 		desc command, params['desc']
 		define_method(command) do
 			opts = OpenStruct.new(config['options'].merge(options))
@@ -48,7 +48,17 @@ class GetWebRadio < Thor
 		end
 	end
 
-	desc 'yaml', 'dump YAML of specified URL'
+	desc 'init', 'show initial config file, save to "rget.yaml" or "~/.rget"'
+	def init
+		puts <<~CONFIG
+			options:
+			  mp3nize: ffmpeg -i '$1' -vn -acodec copy '$2' || ffmpeg -i '$1' -vn -y -ab 64k '$2'
+			  path: .
+			programs:
+		CONFIG
+	end
+
+	desc 'yaml <URL>', 'dump YAML of specified URL'
 	def yaml(url)
 		dump = WebRadio({'url'=>url}, OpenStruct.new({dump: true})).dump
 		puts YAML.dump(dump).lines.drop(1).map{|l| "  #{l}"}
