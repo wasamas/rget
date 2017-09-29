@@ -136,11 +136,7 @@ private
 
 	def exist?(dst)
 		if @dropbox
-			begin
-				!@dropbox.ls(dropbox_file(dst))[0]['is_deleted']
-			rescue Dropbox::API::Error::NotFound, NoMethodError
-				false
-			end
+			!(@dropbox.search(dst, dropbox_path).matches.size == 0)
 		elsif @options.path
 			File.exist?(File.join(@options.path, dst))
 		else
@@ -153,7 +149,12 @@ private
 			print "move to #{@options.path}..."
 			begin
 				if @dropbox
-					@dropbox.chunked_upload(dropbox_file(dst), open(dst))
+					open(dst) do |r|
+						DropboxAuth.upload(@dropbox, dropbox_file(dst)) do
+							print '.'
+							r.read(10_000_000)
+						end
+					end
 					File.delete(dst)
 				elsif @options.path
 					FileUtils.mv(dst, @options.path)
@@ -166,8 +167,12 @@ private
 		end
 	end
 
+	def dropbox_path
+		@options.path.sub(%r|^dropbox://|, '/')
+	end
+
 	def dropbox_file(file)
-		path = @options.path.sub(%r|^dropbox://|, '')
+		path = @options.path.sub(%r|^dropbox://|, '/')
 		File.join(path, file)
 	end
 end
