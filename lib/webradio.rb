@@ -35,7 +35,7 @@ class WebRadio
 		@options = options
 		if !@options.dump && @options.path =~ %r|^dropbox://|
 			require 'dropbox'
-			@dropbox = DropboxAuth.client
+			@dropbox = RGet::Dropbox.client
 		end
 	end
 
@@ -136,7 +136,7 @@ private
 
 	def exist?(dst)
 		if @dropbox
-			!(@dropbox.search(dst, dropbox_path).matches.size == 0)
+			@dropbox.exist?(dst, dropbox_path)
 		elsif @options.path
 			File.exist?(File.join(@options.path, dst))
 		else
@@ -150,7 +150,7 @@ private
 			begin
 				if @dropbox
 					open(dst) do |r|
-						DropboxAuth.upload(@dropbox, dropbox_file(dst)) do
+						@dropbox.upload(dropbox_file(dst)) do
 							print '.'
 							r.read(10_000_000)
 						end
