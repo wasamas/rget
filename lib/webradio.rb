@@ -76,7 +76,7 @@ private
 			end
 		end
 		if !@options.mp3 || src == dst
-			add_cover(dst)
+			add_cover(src) if src =~ /\.mp3$/
 			move(src) if @options.path
 			return
 		end
@@ -146,8 +146,8 @@ private
 
 	def move(dst)
 		if @options.path
-			print "move to #{@options.path}..."
 			begin
+				print "move to #{@options.path}..."
 				if @dropbox
 					open(dst) do |r|
 						@dropbox.upload(dropbox_file(dst)) do
@@ -156,8 +156,11 @@ private
 						end
 					end
 					File.delete(dst)
-				elsif @options.path
+				elsif !(Pathname(@options.path).expand_path == Pathname(dst).expand_path.dirname)
 					FileUtils.mv(dst, @options.path)
+				else
+					puts "skip."
+					return
 				end
 				puts "done."
 			rescue => e
