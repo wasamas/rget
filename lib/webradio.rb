@@ -76,7 +76,7 @@ private
 			end
 		end
 		if !@options.mp3 || src == dst
-			add_cover(dst)
+			add_cover(src) if src =~ /\.mp3$/
 			move(src) if @options.path
 			return
 		end
