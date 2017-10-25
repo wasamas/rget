@@ -38,7 +38,7 @@ module RGet
 		end
 
 		def exist?(dst, dropbox_path)
-			!(@client.search(dst, dropbox_path).matches.size == 0)
+			!(@client.list_folder(dropbox_path).entries.find{|e|e.name == dst} == nil)
 		end
 
 		def upload(dropbox_path)
