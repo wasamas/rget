@@ -14,6 +14,11 @@ class FreshLive < WebRadio
 			begin
 				serial = meta['data']['title'].scan(/\d+$/).first.to_i
 				src = "#{@label}##{'%02d' % serial}.ts"
+				dst = src.sub(/\.ts$/, '.mp4')
+				if exist?(dst)
+					puts "#{dst} is existent, skipped."
+					return
+				end
 				open(src, 'wb') do |w|
 					print "getting #{src}..."
 					ts_list(meta['data']['archiveStreamUrl']).each do |u|
