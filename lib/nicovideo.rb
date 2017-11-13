@@ -18,15 +18,12 @@ class Nicovideo < WebRadio
 
 	def download
 		begin
-			player_url = get_player_url(@url)
+			video = get_video(@url)
 		rescue NoMethodError
 			raise DownloadError.new('video not found')
 		end
-		video_id = Pathname(URI(player_url).path).basename.to_s
-		@cover = thumbinfo(video_id, 'thumbnail_url') unless @cover
-
-		video = @nico.video(video_id)
-		title = video.title || thumbinfo(video_id, 'title') || video_id
+		@cover = thumbinfo(video, 'thumbnail_url') unless @cover
+		title = video.title || thumbinfo(video, 'title') || video.id
 		title.tr!('０-９', '0-9')
 		serial = title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
 		appendix = title =~ /おまけ|アフタートーク/ ? 'a' : ''
@@ -64,21 +61,29 @@ class Nicovideo < WebRadio
 	end
 
 private
-	def get_player_url(list_url)
+	def get_video(list_url)
+		video_url = nil
+		offset = 0
 		begin
-			rss = RSS::Parser.parse(list_url)
-			item = rss.items.first
-			return item.link
-		rescue RSS::NotWellFormedError
-			html = open(list_url, &:read)
-			url = html.scan(%r|/watch/[\w]+|).first
-			raise WebRadio::DownloadError.new('video not found in this pege') unless url
-			return "http://www.nicovideo.jp#{url}"
+			begin
+				rss = RSS::Parser.parse(list_url)
+				item = rss.items.first
+				video_url = item.link
+			rescue RSS::NotWellFormedError
+				html = open(list_url, &:read)
+				url = html.scan(%r|/watch/[\w]+|).first
+				raise WebRadio::DownloadError.new('video not found in this pege') unless url
+				video_url = "http://www.nicovideo.jp#{url}"
+			end
+			video = @nico.video(Pathname(URI(video_url).path).basename.to_s)
+		rescue Net::HTTPForbidden
+			offset += 1
+			return
 		end
 	end
 
-	def thumbinfo(video_id, elem = nil)
-		xml = open("http://ext.nicovideo.jp/api/getthumbinfo/#{video_id}").read
+	def thumbinfo(video, elem = nil)
+		xml = open("http://ext.nicovideo.jp/api/getthumbinfo/#{video.id}").read
 		if elem
 			return xml.scan(%r|<#{elem}>(.*)</#{elem}>|m).flatten.first
 		else
