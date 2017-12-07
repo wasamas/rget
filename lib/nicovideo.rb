@@ -67,18 +67,18 @@ private
 		begin
 			begin
 				rss = RSS::Parser.parse(list_url)
-				item = rss.items.first
+				item = rss.items[offset]
 				video_url = item.link
 			rescue RSS::NotWellFormedError
 				html = open(list_url, &:read)
-				url = html.scan(%r|/watch/[\w]+|).first
+				url = html.scan(%r|/watch/[\w]+|)[offset]
 				raise WebRadio::DownloadError.new('video not found in this pege') unless url
 				video_url = "http://www.nicovideo.jp#{url}"
 			end
 			video = @nico.video(Pathname(URI(video_url).path).basename.to_s)
-		rescue Net::HTTPForbidden
+		rescue Net::HTTPForbidden, Mechanize::ResponseCodeError
 			offset += 1
-			return
+			retry
 		end
 	end
 
