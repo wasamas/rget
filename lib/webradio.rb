@@ -130,7 +130,7 @@ private
 
 	def cover_image_as_xpath
 		html = Nokogiri(open(@url, &:read))
-		image_url = (URI(@url) + (html.xpath(@cover).text)).to_s
+		image_url = (URI(@url) + (html.xpath(@cover)[0].text)).to_s
 		open(image_url, 'r:ASCII-8BIT', &:read)
 	end
 
