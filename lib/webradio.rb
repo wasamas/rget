@@ -163,7 +163,7 @@ private
 					return
 				end
 				puts "done."
-			rescue DropboxApi::Errors::FileConflictError
+			rescue ::DropboxApi::Errors::FileConflictError
 				puts "existent, skip."
 			rescue => e
 				puts "failed."
