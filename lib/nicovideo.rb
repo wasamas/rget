@@ -32,9 +32,11 @@ class Nicovideo < WebRadio
 		mp3nize(@file, @mp3_file) do
 			open(@file, 'wb:ASCII-8BIT') do |o|
 				begin
+					count = 1
 					video.get_video do |body|
-						print '.'
+						print '.' if count % 400 == 0
 						o.write(body)
+						count += 1
 					end
 				rescue Niconico::Video::VideoUnavailableError => e
 					raise DownloadError.new(e.message)
