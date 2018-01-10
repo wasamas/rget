@@ -26,6 +26,10 @@ class Nicovideo < WebRadio
 		title = video.title || thumbinfo(video, 'title') || video.id
 		title.tr!('０-９', '0-9')
 		serial = title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
+		if serial == 0
+			tmp = title.scan(/\d+/).last.to_i
+			serial = tmp if tmp > 0
+		end
 		appendix = title =~ /おまけ|アフタートーク/ ? 'a' : ''
 		@file = "#{@label}##{'%02d' % serial}#{appendix}.#{video.type}"
 		@mp3_file = @file.sub(/\....$/, '.mp3')
