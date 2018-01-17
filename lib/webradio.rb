@@ -10,7 +10,7 @@ class WebRadio
 
 	def self.instance(params, options)
 		case params['url']
-		when %r[^http://hibiki-radio\.jp/]
+		when %r[^https?://hibiki-radio\.jp/]
 			require 'hibiki'
 			Hibiki.new(params, options)
 		when %r[^http://(www\.)?onsen\.ag/program/]
