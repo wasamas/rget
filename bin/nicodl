@@ -87,6 +87,9 @@ ARGV.each do |player_url|
 		rescue Niconico::Live::TicketRetrievingFailed
 			$stderr.puts $!
 			exit 2
+		rescue Niconico::Live::ReservationNotAccepted
+			$stderr.puts "press 'タイムシフト視聴する' button before getting videos."
+			exit 3
 		end
 	end
 end
