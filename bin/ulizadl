@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+require "uri"
+require "mechanize"
+require 'open-uri'
+
+if ARGV.size != 2
+	$stderr.puts "download TS file decoded by Uliza style video streaming"
+	$stderr.puts "ulizadl <playlist.m3u8> <output(.ts)>"
+	exit 1
+end
+
+m3u8 = ARGV.shift
+ts_file = "#{ARGV.shift}.ts"
+
+begin
+	agent = Mechanize.new
+	agent.user_agent_alias = 'Windows Chrome'
+	agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
+	agent.get(m3u8)
+	body = agent.page.body
+rescue ArgumentError
+	body = open(m3u8, &:read)
+end
+tses = body.scan(/.*\.ts.*/)
+key_url = body.scan(/URI="(.*)"/).flatten.first
+
+if key_url
+	key = agent.get_file(key_url)
+	decoder = OpenSSL::Cipher.new('aes-128-cbc')
+	decoder.key = key
+	decoder.decrypt
+else
+	decoder = ''
+	def decoder.update(s); return s; end
+end
+
+open(ts_file, 'wb:ASCII-8BIT') do |ts|
+	tses.each_with_index do |file, count|
+		print "#{count+1}/#{tses.size}\r"
+		ts.write(decoder.update(agent.get_file(file)))
+	end
+	ts.write(decoder.final)
+	puts
+end
