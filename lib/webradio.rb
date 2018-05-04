@@ -22,6 +22,9 @@ class WebRadio
 		when %r[^https://freshlive\.tv/]
 			require 'freshlive'
 			FreshLive.new(params, options)
+		when %r[^http://m\.himalaya\.fm/]
+			require 'himalaya'
+			Himalaya.new(params, options)
 		else
 			raise "unsupported url: #{params['url']}"
 		end
