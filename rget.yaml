@@ -48,3 +48,7 @@ programs:
     url: http://feeds.rebuild.fm/rebuildfm
     label: rebuildfm
     podcast: true
+  taneharu:
+    desc: ラジオ「たねさんはるさんとはなそ。(意志)」
+    url: http://m.himalaya.fm/jp/podcast/190452
+    label: たねさんはるさんとはなそ。(意志)

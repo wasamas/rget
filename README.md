@@ -6,6 +6,7 @@ Downloading newest radio programs on the web. Supported radio stations are:
 * onsen
 * niconico
 * freshlive.tv
+* himalaya.fm
 
 If you want to save files as MP3, needs `ffmpeg` command.
 
