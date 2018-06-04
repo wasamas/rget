@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["t@tdtds.jp"]
   spec.description   = %q{Downloading newest radio programs on the web. Supported radio stations are hibiki, onsen, niconico, freshlive and himalaya.}
   spec.summary       = %q{Downloading newest radio programs on the web.}
-  spec.homepage      = "https://bitbucket.org/tdtds/rget"
+  spec.homepage      = "https://github.com/wasamas/rget"
   spec.license       = "GPL"
 
   spec.files         = `git ls-files`.split($/)
