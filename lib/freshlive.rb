@@ -69,7 +69,7 @@ class FreshLive < WebRadio
 
 private
 	def each_programs(html)
-		x = "//section[h1[contains(text(),'アーカイブ')]]//*[contains(@class,'ProgramTitle')]/a/@href"
+		x = "//section[descendant::h1[contains(text(),'アーカイブ')]]//*[contains(@class,'ProgramTitle')]/a/@href"
 		html.xpath(x).each do |href|
 			id = Pathname(href.value).basename.to_s
 			yield JSON.parse(open("https://freshlive.tv/proxy/Programs;id=#{id}", &:read))
