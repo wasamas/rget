@@ -14,19 +14,25 @@ class FreshLive < WebRadio
 			begin
 				serial = meta['data']['title'].scan(/\d+$/).first.to_i
 				src = "#{@label}##{'%02d' % serial}.ts"
-				dst = src.sub(/\.ts$/, '.mp4')
+				dst = src.sub(/\.ts$/, @options.mp3 ? '.mp3' : '.mp4')
 				if exist?(dst)
 					puts "#{dst} is existent, skipped."
 					return
 				end
-				open(src, 'wb') do |w|
-					print "getting #{src}..."
-					ts_list(meta['data']['archiveStreamUrl']).each do |u|
-						print '.'
-						w.write(open(u, 'rb').read)
+				unless exist?(src)
+					open(src, 'wb') do |w|
+						print "getting #{src}..."
+						ts_list(meta['data']['archiveStreamUrl']).each_with_index do |u, i|
+							print '.' if i % 50 == 0
+							w.write(open(u, 'rb').read)
+						end
 					end
 				end
-				dst = mp4nize(src)
+				if @options.mp3
+					dst = to_mp3(src)
+				else
+					dst = to_mp4(src)
+				end
 				puts 'done.'
 				move(dst)
 				return
@@ -69,7 +75,7 @@ class FreshLive < WebRadio
 
 private
 	def each_programs(html)
-		x = "//section[h1[contains(text(),'アーカイブ')]]//*[contains(@class,'ProgramTitle')]/a/@href"
+		x = "//section[descendant::h1[contains(text(),'アーカイブ')]]//*[contains(@class,'ProgramTitle')]/a/@href"
 		html.xpath(x).each do |href|
 			id = Pathname(href.value).basename.to_s
 			yield JSON.parse(open("https://freshlive.tv/proxy/Programs;id=#{id}", &:read))
@@ -81,9 +87,21 @@ private
 		open(URI(rate_m3u8) + ts_m3u8).read.each_line.grep_v(/^#/).map{|u|URI(rate_m3u8) + u.chomp}
 	end
 
-	def mp4nize(src)
+	def to_mp3(src)
+		dst = src.sub(/ts$/, 'mp3')
+		command = "ffmpeg -i '#{src}' -vn -ab 64k '#{dst}'"
+		result = Open3.capture3(command)
+		if result[2].to_i == 0
+			File.delete(src)
+		else
+			File.delete(dst) if File.exist?(dst)
+		end
+		return dst
+	end
+
+	def to_mp4(src)
 		dst = src.sub(/ts$/, 'mp4')
-		command = "ffmpeg -i #{src} -vcodec copy -strict -2 #{dst}"
+		command = "ffmpeg -i '#{src}' -vcodec copy -strict -2 '#{dst}'"
 		result = Open3.capture3(command)
 		if result[2].to_i == 0
 			File.delete(src)
