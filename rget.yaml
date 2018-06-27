@@ -52,3 +52,7 @@ programs:
     desc: ラジオ「たねさんはるさんとはなそ。(意志)」
     url: http://m.himalaya.fm/jp/podcast/190452
     label: たねさんはるさんとはなそ。(意志)
+  shiny_radio:
+    desc: ラジオ「アイドルマスター シャイニーカラーズ はばたきラジオステーション」
+    url: https://asobistore.jp/special/List?ip_seq%5B%5D=1&ip_seq%5B%5D=14&tag_seq%5B%5D=1
+    label: シャニラジ

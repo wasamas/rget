@@ -7,6 +7,7 @@ require 'mp3info'
 class WebRadio
 	class NotFoundError < StandardError; end
 	class DownloadError < StandardError; end
+	class UnsupportError < StandardError; end
 
 	def self.instance(params, options)
 		case params['url']
@@ -25,8 +26,11 @@ class WebRadio
 		when %r[^http://m\.himalaya\.fm/]
 			require 'himalaya'
 			Himalaya.new(params, options)
+		when %r[^https://asobistore\.jp/]
+			require 'asobistore'
+			AsobiStore.new(params, options)
 		else
-			raise "unsupported url: #{params['url']}"
+			raise UnsupportError, "unsupported url: #{params['url']}"
 		end
 	end
 

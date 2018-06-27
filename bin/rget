@@ -40,9 +40,9 @@ class GetWebRadio < Thor
 				else
 					WebRadio(params, opts){|media|media.download}
 				end
-			rescue WebRadio::NotFoundError => e
-				$stderr.puts e.message
-			rescue WebRadio::DownloadError => e
+			rescue WebRadio::NotFoundError,
+				    WebRadio::DownloadError,
+					 WebRadio::UnsupportError => e
 				$stderr.puts e.message
 			end
 		end
