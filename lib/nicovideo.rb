@@ -38,6 +38,7 @@ class Nicovideo < WebRadio
 				begin
 					count = 1
 					video.get_video do |body|
+						raise DownloadError.new(body) if body == '403 Forbidden'
 						print '.' if count % 400 == 0
 						o.write(body)
 						count += 1
