@@ -18,7 +18,7 @@ class AsobiStore < WebRadio
 		m3u8 = "#{File.dirname(src_m3u8)}/#{open(src_m3u8).read.match(/^[^#].*/)[0]}"
 
 		serial = html.title.scan(/#(\d+)/).flatten.first.to_i
-		@cover = "https:#{html.css('video').first.attr('poster')}" unless @cover
+		@cover = "https:#{html.css('audio,video').first.attr('poster')}" unless @cover
 		ts_file = "#{@label}##{serial}.ts"
 		mp3_file = "#{@label}##{serial}.mp3"
 
