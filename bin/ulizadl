@@ -32,6 +32,7 @@ if key_url
 else
 	decoder = ''
 	def decoder.update(s); return s; end
+	def decoder.final(); return ''; end
 end
 
 open(ts_file, 'wb:ASCII-8BIT') do |ts|
