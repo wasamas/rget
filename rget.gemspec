@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "rget"
-  spec.version       = "4.7.4"
+  spec.version       = "4.7.5"
   spec.authors       = ["TADA Tadashi"]
   spec.email         = ["t@tdtds.jp"]
   spec.description   = %q{Downloading newest radio programs on the web. Supported radio stations are hibiki, onsen, niconico, freshlive, himalaya and asobi store.}
@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "pry"
+  spec.add_development_dependency "travis"
 end
