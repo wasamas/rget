@@ -55,10 +55,8 @@ private
 
 			video_info = JSON.parse(agent.get("https://vcms-api.hibiki-radio.jp/api/v1/videos/play_check?video_id=#{video_id}").body,{:symbolize_names => true})
 			playlist_url = video_info[:playlist_url]
-			m3u8_url = agent.get(playlist_url).body.scan(/http.*/).flatten.first
-
-			base_url = URI.parse(m3u8_url)
-			base_path = File.dirname(base_url.path)
+			meta_url = agent.get(playlist_url).body.scan(/http.*/).flatten.first
+			m3u8_url = URI(Hash[URI::decode_www_form(URI(meta_url).query)]['url2'])
 
 			m3u8 = agent.get(m3u8_url).body
 			key_url = m3u8.scan(/URI="(.*)"/).flatten.first
@@ -83,8 +81,7 @@ private
 		mp3nize(ts_file, mp3_file) do
 			open(ts_file, 'wb:ASCII-8BIT') do |ts|
 				tses.each do |file|
-					base_url.path = "#{base_path}/#{file}"
-					ts.write(decoder.update(agent.get_file(base_url)))
+					ts.write(decoder.update(agent.get_file(m3u8_url.merge(file))))
 				end
 				ts.write(decoder.final)
 			end
