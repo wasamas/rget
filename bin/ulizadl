@@ -2,6 +2,7 @@
 require "uri"
 require "mechanize"
 require 'open-uri'
+require 'thread'
 
 if ARGV.size != 2
 	$stderr.puts "download TS file decoded by Uliza style video streaming"
@@ -35,11 +36,54 @@ else
 	def decoder.final(); return ''; end
 end
 
+q = Queue.new
+tses.each_with_index{|ts, i| q.push([ts, i])}
+q.close
+
+threads = []
+results = [nil] * q.size
+stats = [0] * 3
+3.times do |t|
+	threads << Thread.start(t) do |t|
+		while (ts, i = q.pop)
+			begin
+				sleep(rand(0.1) * 3)
+				results[i] = agent.get_file(ts)
+				stats[t] = i
+			rescue Mechanize::ResponseCodeError => e
+				case e.response_code
+				when "403" # Forbidden
+					stats[t] = -2
+					retry
+				when "429" # TooManyRequests
+					stats[t] = -3
+					retry
+				else
+					raise # TODO: catch other errors
+				end
+			end
+		end
+	end
+end
+
 open(ts_file, 'wb:ASCII-8BIT') do |ts|
-	tses.each_with_index do |file, count|
-		print "#{count+1}/#{tses.size}\r"
-		ts.write(decoder.update(agent.get_file(file)))
+	results.each_with_index do |data, i|
+		loop do
+			if data
+				ts.write(decoder.update(data))
+				results[i] = nil # be saved data want to GC
+				print "#{i+1}/#{tses.size} saved --"
+				stats.each_with_index{|v, t| print " T#{t+1}:#{v+1}"}
+				print "\r"
+				break
+			else
+				sleep(1.0) # wait for complete of chunk download finished
+				data = results[i]
+			end
+		end
 	end
 	ts.write(decoder.final)
 	puts
 end
+
+threads.each{|t| t.join}
