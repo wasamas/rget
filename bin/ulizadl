@@ -2,6 +2,7 @@
 require "uri"
 require "mechanize"
 require 'open-uri'
+require 'thread'
 
 if ARGV.size != 2
 	$stderr.puts "download TS file decoded by Uliza style video streaming"
@@ -35,10 +36,60 @@ else
 	def decoder.final(); return ''; end
 end
 
+q = Queue.new
+tses.each_with_index{|ts_url, block_no| q.push([ts_url, block_no])}
+q.close
+results = [nil] * q.size
+
+msgs = Queue.new
+stats = [0] * 3
+stats.size.times do |thread_no|
+	Thread.start(thread_no) do |thread_no|
+		while (ts_url, block_no = q.pop)
+			begin
+				sleep(rand(0.1) * 3)
+				results[block_no] = agent.get_file(ts_url)
+				stats[thread_no] = block_no
+			rescue Mechanize::ResponseCodeError => e
+				case e.response_code
+				when "403" # Forbidden
+					msgs.push "T#{thread_no}: 403 Forbidden"
+					retry
+				when "429" # TooManyRequests
+					msgs.push "T#{thread_no}: 429 TooManyRequests"
+					retry
+				else
+					msgs.push "T#{thread_no}: #{e}"
+					retry # TODO: catch other status code
+				end
+			rescue
+				msgs.push "T#{thread_no}: #{e.class} #{e}"
+				break
+			end
+		end
+	end
+end
+
+def print_status(block, tses, stats, msgs)
+	$stderr.puts msgs.pop while !msgs.empty?
+	print "#{block+1}/#{tses.size} saved --"
+	stats.each_with_index{|block_no, thread_no| print " T#{thread_no+1}:#{block_no+1}"}
+	print "\r"
+end
+
 open(ts_file, 'wb:ASCII-8BIT') do |ts|
-	tses.each_with_index do |file, count|
-		print "#{count+1}/#{tses.size}\r"
-		ts.write(decoder.update(agent.get_file(file)))
+	results.each_with_index do |data, i|
+		print_status(i, tses, stats, msgs)
+		loop do
+			if data
+				ts.write(decoder.update(data))
+				results[i] = nil # be saved data want to GC
+				break
+			else
+				sleep(1.0) # wait for complete of chunk download finished
+				data = results[i]
+			end
+		end
 	end
 	ts.write(decoder.final)
 	puts
