@@ -12,6 +12,7 @@ end
 
 m3u8 = ARGV.shift
 ts_file = "#{ARGV.shift}.ts"
+ts_file = nil if File.basename(ts_file) == "-.ts"
 
 begin
 	agent = Mechanize.new
@@ -72,17 +73,17 @@ end
 
 def print_status(block, tses, stats, msgs)
 	$stderr.puts msgs.pop while !msgs.empty?
-	print "#{block+1}/#{tses.size} saved --"
-	stats.each_with_index{|block_no, thread_no| print " T#{thread_no+1}:#{block_no+1}"}
-	print "\r"
+	$stderr.print "#{block+1}/#{tses.size} saved --"
+	stats.each_with_index{|block_no, thread_no| $stderr.print " T#{thread_no+1}:#{block_no+1}"}
+	$stderr.print "\r"
 end
 
-open(ts_file, 'wb:ASCII-8BIT') do |ts|
+def save(fd, results, tses, stats, msgs, decoder)
 	results.each_with_index do |data, i|
 		print_status(i, tses, stats, msgs)
 		loop do
 			if data
-				ts.write(decoder.update(data))
+				fd.write(decoder.update(data))
 				results[i] = nil # be saved data want to GC
 				break
 			else
@@ -91,6 +92,12 @@ open(ts_file, 'wb:ASCII-8BIT') do |ts|
 			end
 		end
 	end
-	ts.write(decoder.final)
+	fd.write(decoder.final)
 	puts
+end
+
+if ts_file
+	open(ts_file, 'wb:ASCII-8BIT'){|f|save(f, results, tses, stats, msgs, decoder)}
+else
+	save($stdout, results, tses, stats, msgs, decoder)
 end
