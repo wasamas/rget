@@ -9,10 +9,7 @@ class AsobiStore < WebRadio
 	end
 
 	def download
-		list = Nokogiri(open(@url).read)
-		program = list.css('.list-main-product a.wrap').first.attr('href')
-		content = Nokogiri(open("https://asobistore.jp#{program}").read)
-		player = content.css('iframe').last.attr('src')
+		player = find_player(@url)
 		html = Nokogiri(open("https:#{player}").read)
 		src_m3u8 = html.css('source').first.attr('src')
 		m3u8 = "#{File.dirname(src_m3u8)}/#{open(src_m3u8).read.match(/^[^#].*/)[0]}"
@@ -51,5 +48,18 @@ class AsobiStore < WebRadio
 				ts.write(decoder.final)
 			end
 		end
+	end
+
+private
+	def find_player(url)
+		programs = Nokogiri(open(url).read)
+		programs.css('.list-main-product a.wrap').each do |program|
+			begin
+				return Nokogiri(open("https://asobistore.jp#{program.attr('href')}").read).css('iframe').last.attr('src')
+			rescue # access denied because only access by premium members
+				next
+			end
+		end
+		raise StandardError.new('movie not found.')
 	end
 end
