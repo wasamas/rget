@@ -55,8 +55,7 @@ private
 
 			video_info = JSON.parse(agent.get("https://vcms-api.hibiki-radio.jp/api/v1/videos/play_check?video_id=#{video_id}").body,{:symbolize_names => true})
 			playlist_url = video_info[:playlist_url]
-			meta_url = agent.get(playlist_url).body.scan(/http.*/).flatten.first
-			m3u8_url = URI(Hash[URI::decode_www_form(URI(meta_url).query)]['url2'])
+			m3u8_url = URI(agent.get(playlist_url).body.scan(/http.*/).flatten.first)
 
 			m3u8 = agent.get(m3u8_url).body
 			key_url = m3u8.scan(/URI="(.*)"/).flatten.first
