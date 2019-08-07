@@ -34,18 +34,10 @@ class Nicovideo < WebRadio
 		@file = "#{@label}##{'%02d' % serial}#{appendix}.#{video.type}"
 		@mp3_file = @file.sub(/\....$/, '.mp3')
 		mp3nize(@file, @mp3_file) do
-			open(@file, 'wb:ASCII-8BIT') do |o|
-				begin
-					count = 1
-					video.get_video do |body|
-						raise DownloadError.new(body) if body == '403 Forbidden'
-						print '.' if count % 400 == 0
-						o.write(body)
-						count += 1
-					end
-				rescue Niconico::Video::VideoUnavailableError => e
-					raise DownloadError.new(e.message)
-				end
+			loop do
+				print '.'
+				_, _, status = Open3.capture3("youtube-dl -f mp4 -o #{@file} --netrc #{video.url}")
+				break if status == 0
 			end
 		end
 	end
