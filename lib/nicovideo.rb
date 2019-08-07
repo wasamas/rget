@@ -36,8 +36,9 @@ class Nicovideo < WebRadio
 		mp3nize(@file, @mp3_file) do
 			loop do
 				print '.'
-				_, _, status = Open3.capture3("youtube-dl -f mp4 -o #{@file} --netrc #{video.url}")
+				_, err, status = Open3.capture3("youtube-dl -f mp4 -o #{@file} --netrc #{video.url}")
 				break if status == 0
+				raise DownloadError.new(err) unless err =~ /403: Forbidden/
 			end
 		end
 	end
