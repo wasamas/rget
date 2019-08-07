@@ -66,7 +66,7 @@ private
 		offset = 0
 		begin
 			begin
-				rss = RSS::Parser.parse(list_url)
+				rss = RSS::Parser.parse(open(list_url).read)
 				item = rss.items[offset]
 				video_url = item.link
 			rescue RSS::NotWellFormedError
