@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "rget"
-  spec.version       = "4.8.0"
+  spec.version       = "4.8.1"
   spec.authors       = ["TADA Tadashi"]
   spec.email         = ["t@tdtds.jp"]
   spec.description   = %q{Downloading newest radio programs on the web. Supported radio stations are hibiki, onsen, niconico, freshlive, himalaya and asobi store.}
