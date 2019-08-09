@@ -32,14 +32,15 @@ private
 		begin
 			serial = html.css("##{program_id}").text.scan(/#(\d+)/).flatten.first
 			mp3_url = html.css('form[target=_self]').select {|form|
-				form.attr('action') =~ %r[/#{program_id}\w+\.mp3]
+				form.attr('action') =~ %r|/#{program_id}\w+\.mp[34]|
 			}.first.attr('action')
 		rescue NoMethodError
 			raise NotFoundError.new("no radio program in #{program_id}.")
 		end
+		src_file = "#{name}##{serial}#{mp3_url.scan(/\.mp[34]$/).first}"
 		mp3_file = "#{name}##{serial}.mp3"
-		mp3nize(mp3_file, mp3_file, false) do
-			open(mp3_file, 'wb:ASCII-8BIT') do |mp3|
+		mp3nize(src_file, mp3_file, false) do
+			open(src_file, 'wb:ASCII-8BIT') do |mp3|
 				mp3.write open(mp3_url, 'rb:ASCII-8BIT', &:read)
 			end
 		end
