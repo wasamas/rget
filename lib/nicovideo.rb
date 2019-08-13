@@ -6,6 +6,8 @@ require 'open-uri'
 require 'rss'
 
 class Nicovideo < WebRadio
+	class ForbiddenError < StandardError; end
+
 	def initialize(params, options)
 		account = Pit::get('nicovideo', :require => {
 			:id => 'your nicovideo id',
@@ -17,29 +19,36 @@ class Nicovideo < WebRadio
 	end
 
 	def download
+		offset = 0
 		begin
-			video = get_video(@url)
-		rescue NoMethodError
-			raise DownloadError.new('video not found')
-		end
-		@cover = thumbinfo(video, 'thumbnail_url') unless @cover
-		title = video.title || thumbinfo(video, 'title') || video.id
-		title.tr!('０-９', '0-9')
-		serial = title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
-		if serial == 0
-			tmp = title.scan(/\d+/).last.to_i
-			serial = tmp if tmp > 0
-		end
-		appendix = title =~ /おまけ|アフタートーク/ ? 'a' : ''
-		@file = "#{@label}##{'%02d' % serial}#{appendix}.#{video.type}"
-		@mp3_file = @file.sub(/\....$/, '.mp3')
-		mp3nize(@file, @mp3_file) do
-			loop do
-				print '.'
-				_, err, status = Open3.capture3("youtube-dl -f mp4 -o #{@file} --netrc #{video.url}")
-				break if status == 0
-				raise DownloadError.new(err) unless err =~ /403: Forbidden/
+			video = get_video(@url, offset)
+			@cover = thumbinfo(video, 'thumbnail_url') unless @cover
+			title = video.title || thumbinfo(video, 'title') || video.id
+			title.tr!('０-９', '0-9')
+			serial = title.scan(/(?:[#第]|[ 　]EP|track-)(\d+)|/).flatten.compact[0].to_i
+			if serial == 0
+				tmp = title.scan(/\d+/).last.to_i
+				serial = tmp if tmp > 0
 			end
+			appendix = title =~ /おまけ|アフタートーク/ ? 'a' : ''
+			@file = "#{@label}##{'%02d' % serial}#{appendix}.#{video.type}"
+			@mp3_file = @file.sub(/\....$/, '.mp3')
+			mp3nize(@file, @mp3_file) do
+				loop do
+					print '.'
+					_, err, status = Open3.capture3("youtube-dl -f mp4 -o #{@file} --netrc #{video.url}")
+					break if status == 0
+					next if err =~ /403: Forbidden/
+					raise ForbiddenError.new("Could not access to #{video.url}") if err =~ /TypeError/
+					raise DownloadError.new(err) 
+				end
+			end
+		rescue ForbiddenError
+			puts "#{$!.message}, try next."
+			offset += 1
+			retry
+		rescue NotFoundError
+			raise DownloadError.new('video not found')
 		end
 	end
 
@@ -61,9 +70,8 @@ class Nicovideo < WebRadio
 	end
 
 private
-	def get_video(list_url)
+	def get_video(list_url, offset = 0)
 		video_url = nil
-		offset = 0
 		begin
 			begin
 				rss = RSS::Parser.parse(open(list_url).read)
@@ -76,6 +84,8 @@ private
 				video_url = "http://www.nicovideo.jp#{url}"
 			end
 			video = @nico.video(Pathname(URI(video_url).path).basename.to_s)
+		rescue NoMethodError
+			raise NotFoundError.new('video not found')
 		rescue Net::HTTPForbidden, Mechanize::ResponseCodeError
 			offset += 1
 			retry
