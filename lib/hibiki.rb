@@ -57,10 +57,10 @@ private
 			playlist_url = video_info[:playlist_url]
 			m3u8_url = URI(agent.get(playlist_url).body.scan(/http.*/).flatten.first)
 
-			m3u8 = agent.get(m3u8_url).body
+			m3u8 = agent.get(m3u8_url).body.split("EXT-X-KEY").last
 			key_url = m3u8.scan(/URI="(.*)"/).flatten.first
 
-			tses = m3u8.scan(/ts_.*\.ts/)
+			tses = m3u8.scan(/^.*ts_.*\.ts/)
 			key = agent.get_file(key_url)
 			iv = m3u8.scan(/IV=0x(.*)$/).flatten.pack("H*")
 		rescue NoMethodError
