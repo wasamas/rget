@@ -25,9 +25,10 @@ For customize radio programs, copy `rget.yaml` to `~/.rget` or current work dire
 * `~/.rget`
 * `<command path>/../rget.yaml` (for gem)
 
-## Installation
+## Installation and Setup
 ```
   $ gem install rget
+  $ rget init > ~/.rget # or your local rget.yaml
 ```
 
 ## Usage
@@ -41,14 +42,14 @@ rget yaml http://example.com/radio >> ~/.rget
 # download and convert to mp3 THE iDOLM@STER Cinderella Girls Radio
 rget imas_cg
 
-# download takamori only (saving movie file as .MP4)
-rget takamori --no-mp3
+# download suzakinishi only (saving movie file as .MP4)
+rget suzakinishi --no-mp3
 
 # srore mp3 file to specified directory
-rget suzakinishi --path=/home/hoge/radio
+rget matsui --path=/home/hoge/radio
 
 # store mp3 file to radio folder of Dropbox
-rget matsui --path=dropbpx://radio
+rget shiny_radio --path=dropbpx://radio
 ```
 
 ### add\_mp3info command
