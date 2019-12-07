@@ -1,5 +1,5 @@
 options:
-  mp3nize: ffmpeg -i '$1' -vn -acodec copy '$2' || ffmpeg -i '$1' -vn -y -ab 64k '$2'
+  mp3nize: ffmpeg -i '$1' -vn -acodec copy '$2' || ffmpeg -i '$1' -vn -y -ab 128k '$2'
 programs:
   imas_cg:
     desc: デレラジ☆
@@ -15,44 +15,11 @@ programs:
     url: http://ch.nicovideo.jp/search/%E6%B4%B2%E5%B4%8E%E8%A5%BF?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
     label: 洲崎西
     cover: https://pbs.twimg.com/profile_images/836214019849506818/kXSasy1Y.jpg
-  takamori:
-    desc: 高森重戦舎 (声優バラエティ専門「声フレ」チャンネル内)
-    url: https://freshlive.tv/seifre
-    label: 高森重戦舎
-  bahamut:
-    desc: ラジオ神撃のバハムート
-    url: http://hibiki-radio.jp/description/bahamut
-    label: バハムート
-  ssc:
-    desc: 春佳・彩花のSSちゃんねる
-    url: http://ch.nicovideo.jp/search/SS%E3%81%A1%E3%82%83%E3%82%93%E3%81%AD%E3%82%8B?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
-    label: 春佳・彩花のSSちゃんねる
-  remake:
-    desc: りめいく！
-    url: http://ch.nicovideo.jp/search/%E3%82%8A%E3%82%81%E3%81%84%E3%81%8F?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
-    label: りめいく！
-  adlib:
-    desc: あどりぶ
-    url: http://ch.nicovideo.jp/search/%E3%81%82%E3%81%A9%E3%82%8A%E3%81%B6?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
-    label: あどりぶ
-  trysail:
-    desc: TrySailのTRYangle harmony
-    url: http://ch.nicovideo.jp/search/TrySail?channel_id=ch2585696&mode=s&sort=f&order=d&type=video
-    label: トラハモ
-  banpresto:
-    desc: アイドルマスターWebラジオ～バンプレストスペシャル～
-    url: http://ch.nicovideo.jp/search/IDOLM@STER?channel_id=ch346&mode=s&sort=f&order=d&type=video
-    label: バンプレスト
-  rebuild:
-    desc: Rebuild.fm
-    url: http://feeds.rebuild.fm/rebuildfm
-    label: rebuildfm
-    podcast: true
-  taneharu:
-    desc: ラジオ「たねさんはるさんとはなそ。(意志)」
-    url: http://m.himalaya.fm/jp/podcast/190452
-    label: たねさんはるさんとはなそ。(意志)
   shiny_radio:
     desc: ラジオ「アイドルマスター シャイニーカラーズ はばたきラジオステーション」
     url: https://asobistore.jp/special/List?ip_seq%5B%5D=1&ip_seq%5B%5D=14&tag_seq%5B%5D=1
     label: シャニラジ
+  luminesan:
+    desc: ル美子さん
+    url: https://ch.nicovideo.jp/luminesan/video?rss=2.0
+    label: ル美子さん
