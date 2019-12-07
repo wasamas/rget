@@ -1,8 +1,8 @@
 require 'webradio'
 
-class Uliza < WebRadio
+class HLS < WebRadio
 private
-	def uliza_download(name, html, serial_pattern, m3u_pattern)
+	def hls_download(name, html, serial_pattern, m3u_pattern)
 		serial = html.scan(serial_pattern).flatten.sort{|a,b| a.to_i <=> b.to_i}.last
 		@m4a_file = "#{name}##{serial}.m4a"
 		@mp3_file = @m4a_file.sub(/\.m4a$/, '.mp3')
