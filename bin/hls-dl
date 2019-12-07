@@ -5,8 +5,8 @@ require 'open-uri'
 require 'thread'
 
 if ARGV.size != 2
-	$stderr.puts "download TS file decoded by Uliza style video streaming"
-	$stderr.puts "ulizadl <playlist.m3u8> <output(.ts)>"
+	$stderr.puts "high speed video downloader of Http Live Streaming (HLS)"
+	$stderr.puts "hls-dl <playlist.m3u8> <output(.ts)>"
 	exit 1
 end
 
