@@ -8,7 +8,7 @@ class Himalaya < WebRadio
 	end
 
 	def download
-		html = open(@url).read
+		html = URI.open(@url).read
 		json_str = html.scan(/__NEXT_DATA__ = (.*)/).flatten.first
 		json = JSON.parse(json_str)
 		tracks = json['props']['seo']['albumData']['data']['tracks']['list']
@@ -22,7 +22,7 @@ class Himalaya < WebRadio
 		mp3_file = "#{@label}##{serial}.mp3"
 		mp3nize(m4a_file, mp3_file) do
 			open(m4a_file, 'wb:ASCII-8BIT') do |m4a|
-				m4a.write(open(m4a_url).read)
+				m4a.write(URI.open(m4a_url).read)
 			end
 		end
 	end

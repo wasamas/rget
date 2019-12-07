@@ -11,18 +11,18 @@ private
 			unless m3u_meta2
 				raise WebRadio::DownloadError.new("recent radio program not found.")
 			end
-			m3u_meta1 = open(m3u_meta2, &:read)
+			m3u_meta1 = URI.open(m3u_meta2, &:read)
 			m3u = m3u_meta1.scan(/^[^#].*/).first
 			save_m4a(URI(m3u), @m4a_file)
 		end
 	end
 
 	def get_m4a(uri_playlist)
-		open(uri_playlist).each_line do |l|
+		URI.open(uri_playlist).each_line do |l|
 			next if /^#/ =~ l
 			l.chomp!
 			print "."
-			yield open(uri_playlist + l, 'r:ASCII-8BIT', &:read)
+			yield URI.open(uri_playlist + l, 'r:ASCII-8BIT', &:read)
 		end
 	end
 	

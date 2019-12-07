@@ -10,7 +10,7 @@ class FreshLive < WebRadio
 			archive = URI(File.join(@url + '/programs/archive'))
 		end
 
-		each_programs(Nokogiri(open(archive).read)) do |meta|
+		each_programs(Nokogiri(URI.open(archive).read)) do |meta|
 			begin
 				serial = meta['data']['title'].scan(/\d+$/).first.to_i
 				src = "#{@label}##{'%02d' % serial}.ts"
@@ -24,7 +24,7 @@ class FreshLive < WebRadio
 						print "getting #{src}..."
 						ts_list(meta['data']['archiveStreamUrl']).each_with_index do |u, i|
 							print '.' if i % 50 == 0
-							w.write(open(u, 'rb').read)
+							w.write(URI.open(u, 'rb').read)
 						end
 					end
 				end
@@ -62,7 +62,7 @@ class FreshLive < WebRadio
 			}
 		else
 			tag = Pathname(u.path).basename.to_s
-			meta = JSON.parse(Nokogiri(open(@url, &:read)).css('script').first)
+			meta = JSON.parse(Nokogiri(URI.open(@url, &:read)).css('script').first)
 			return {
 				tag => {
 					'desc' => meta['name'],
@@ -78,13 +78,13 @@ private
 		x = "//section[descendant::h1[contains(text(),'アーカイブ')]]//*[contains(@class,'ProgramTitle')]/a/@href"
 		html.xpath(x).each do |href|
 			id = Pathname(href.value).basename.to_s
-			yield JSON.parse(open("https://freshlive.tv/proxy/Programs;id=#{id}", &:read))
+			yield JSON.parse(URI.open("https://freshlive.tv/proxy/Programs;id=#{id}", &:read))
 		end
 	end
 
 	def ts_list(rate_m3u8)
-		ts_m3u8 = open(rate_m3u8).read.each_line.grep_v(/^#/)[1].chomp
-		open(URI(rate_m3u8) + ts_m3u8).read.each_line.grep_v(/^#/).map{|u|URI(rate_m3u8) + u.chomp}
+		ts_m3u8 = URI.open(rate_m3u8).read.each_line.grep_v(/^#/)[1].chomp
+		URI.open(URI(rate_m3u8) + ts_m3u8).read.each_line.grep_v(/^#/).map{|u|URI(rate_m3u8) + u.chomp}
 	end
 
 	def to_mp3(src)

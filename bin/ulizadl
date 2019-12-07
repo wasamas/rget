@@ -21,7 +21,7 @@ begin
 	agent.get(m3u8)
 	body = agent.page.body
 rescue ArgumentError
-	body = open(m3u8, &:read)
+	body = URI.open(m3u8, &:read)
 end
 tses = body.scan(/.*\.ts.*/)
 key_url = body.scan(/URI="(.*)"/).flatten.first
