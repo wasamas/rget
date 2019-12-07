@@ -132,13 +132,13 @@ private
 	end
 
 	def cover_image_as_url
-		open(@cover, 'rb', &:read)
+		URI.open(@cover, 'rb', &:read)
 	end
 
 	def cover_image_as_xpath
-		html = Nokogiri(open(@url, &:read))
+		html = Nokogiri(URI.open(@url, &:read))
 		image_url = (URI(@url) + (html.xpath(@cover)[0].text)).to_s
-		open(image_url, 'r:ASCII-8BIT', &:read)
+		URI.open(image_url, 'r:ASCII-8BIT', &:read)
 	end
 
 	def exist?(dst)

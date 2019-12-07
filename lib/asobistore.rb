@@ -10,9 +10,9 @@ class AsobiStore < WebRadio
 
 	def download
 		player = find_player(@url)
-		html = Nokogiri(open("https:#{player}").read)
+		html = Nokogiri(URI.open("https:#{player}").read)
 		src_m3u8 = html.css('source').first.attr('src')
-		m3u8 = "#{File.dirname(src_m3u8)}/#{open(src_m3u8).read.match(/^[^#].*/)[0]}"
+		m3u8 = "#{File.dirname(src_m3u8)}/#{URI.open(src_m3u8).read.match(/^[^#].*/)[0]}"
 
 		serial = html.title.scan(/#(\d+)/).flatten.first.to_i
 		@cover = "https:#{html.css('audio,video').first.attr('poster')}" unless @cover
@@ -24,7 +24,7 @@ class AsobiStore < WebRadio
 			agent.get(m3u8)
 			body = agent.page.body
 		rescue ArgumentError
-			body = open(m3u8, &:read)
+			body = URI.open(m3u8, &:read)
 		end
 		tses = body.scan(/.*\.ts.*/)
 		key_url = body.scan(/URI="(.*)"/).flatten.first
@@ -52,10 +52,10 @@ class AsobiStore < WebRadio
 
 private
 	def find_player(url)
-		programs = Nokogiri(open(url).read)
+		programs = Nokogiri(URI.open(url).read)
 		programs.css('.list-main-product a.wrap').each do |program|
 			begin
-				return Nokogiri(open("https://asobistore.jp#{program.attr('href')}").read).css('iframe').last.attr('src')
+				return Nokogiri(URI.open("https://asobistore.jp#{program.attr('href')}").read).css('iframe').last.attr('src')
 			rescue # access denied because only access by premium members
 				next
 			end

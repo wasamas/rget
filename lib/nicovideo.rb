@@ -74,11 +74,11 @@ private
 		video_url = nil
 		begin
 			begin
-				rss = RSS::Parser.parse(open(list_url).read)
+				rss = RSS::Parser.parse(URI.open(list_url).read)
 				item = rss.items[offset]
 				video_url = item.link
 			rescue RSS::NotWellFormedError
-				html = open(list_url, &:read)
+				html = URI.open(list_url, &:read)
 				url = html.scan(%r|/watch/[\w]+|)[offset]
 				raise WebRadio::DownloadError.new('video not found in this pege') unless url
 				video_url = "http://www.nicovideo.jp#{url}"
@@ -93,7 +93,7 @@ private
 	end
 
 	def thumbinfo(video, elem = nil)
-		xml = open("http://ext.nicovideo.jp/api/getthumbinfo/#{video.id}").read
+		xml = URI.open("http://ext.nicovideo.jp/api/getthumbinfo/#{video.id}").read
 		if elem
 			return xml.scan(%r|<#{elem}>(.*)</#{elem}>|m).flatten.first
 		else

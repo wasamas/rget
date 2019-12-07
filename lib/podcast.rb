@@ -29,7 +29,7 @@ class Podcast
 		end
 		print "getting #{serial}..."
 		open(file, 'wb:ASCII-8BIT') do |o|
-			o.write(open(episode.enclosure.url, 'rb:ASCII-8BIT', &:read))
+			o.write(URI.open(episode.enclosure.url, 'rb:ASCII-8BIT', &:read))
 		end
 		puts "done."
 	end
