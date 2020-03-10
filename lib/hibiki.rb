@@ -58,9 +58,7 @@ private
 			m3u8_url = URI(agent.get(playlist_url).body.scan(/http.*/).flatten.first)
 
 			# choice the max size element from multi-part m3u8 file
-			m3u8s = agent.get(m3u8_url).body.split("EXT-X-KEY")
-			m3u8_sizes = m3u8s.map(&:size)
-			m3u8 = m3u8s[m3u8_sizes.index(m3u8_sizes.max)]
+			m3u8 = agent.get(m3u8_url).body.split("EXT-X-KEY").sort{|m,n|m.size <=> n.size}.last
 
 			key_url = m3u8.scan(/URI="(.*)"/).flatten.first
 
