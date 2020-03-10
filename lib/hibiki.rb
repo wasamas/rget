@@ -57,7 +57,11 @@ private
 			playlist_url = video_info[:playlist_url]
 			m3u8_url = URI(agent.get(playlist_url).body.scan(/http.*/).flatten.first)
 
-			m3u8 = agent.get(m3u8_url).body.split("EXT-X-KEY").last
+			# choice the max size element from multi-part m3u8 file
+			m3u8s = agent.get(m3u8_url).body.split("EXT-X-KEY")
+			m3u8_sizes = m3u8s.map(&:size)
+			m3u8 = m3u8s[m3u8_sizes.index(m3u8_sizes.max)]
+
 			key_url = m3u8.scan(/URI="(.*)"/).flatten.first
 
 			tses = m3u8.scan(/^.*ts_.*\.ts/)
