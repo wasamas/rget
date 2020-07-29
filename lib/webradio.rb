@@ -14,7 +14,7 @@ class WebRadio
 		when %r[^https?://hibiki-radio\.jp/]
 			require 'hibiki'
 			Hibiki.new(params, options)
-		when %r[^http://(www\.)?onsen\.ag/program/]
+		when %r[^https?://(www\.)?onsen\.ag/program/]
 			require 'onsen'
 			Onsen.new(params, options)
 		when %r[nicovideo\.jp]
