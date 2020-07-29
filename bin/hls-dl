@@ -1,103 +1,18 @@
 #!/usr/bin/env ruby
-require "uri"
-require "mechanize"
-require 'open-uri'
-require 'thread'
+require "open3"
 
 if ARGV.size != 2
-	$stderr.puts "high speed video downloader of Http Live Streaming (HLS)"
-	$stderr.puts "hls-dl <playlist.m3u8> <output(.ts)>"
+	$stderr.puts "HLS downloader wrapping ffmpeg"
+	$stderr.puts "hls-dl <playlist.m3u8> <output(.mp4,mp3,...)>"
 	exit 1
 end
 
-m3u8 = ARGV.shift
-ts_file = "#{ARGV.shift}.ts"
-ts_file = nil if File.basename(ts_file) == "-.ts"
-
-begin
-	agent = Mechanize.new
-	agent.user_agent_alias = 'Windows Chrome'
-	agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
-	agent.get(m3u8)
-	body = agent.page.body
-rescue ArgumentError
-	body = URI.open(m3u8, &:read)
+ffmpeg = %Q[ffmpeg -loglevel error -protocol_whitelist file,http,https,tcp,tls,crypto -n -i "#{ARGV[0]}" #{ARGV[1]}]
+result = Open3.capture3(ffmpeg)
+unless result[2].to_i == 0
+	p result
+	File.delete(ARGV[1]) if File.exist?(ARGV[1])
+	$stderr.puts result[1]
+	exit(1)
 end
-tses = body.scan(/.*\.ts.*/)
-key_url = body.scan(/URI="(.*)"/).flatten.first
-
-if key_url
-	key = agent.get_file(key_url)
-	decoder = OpenSSL::Cipher.new('aes-128-cbc')
-	decoder.key = key
-	decoder.decrypt
-else
-	decoder = ''
-	def decoder.update(s); return s; end
-	def decoder.final(); return ''; end
-end
-
-q = Queue.new
-tses.each_with_index{|ts_url, block_no| q.push([ts_url, block_no])}
-q.close
-results = [nil] * q.size
-
-msgs = Queue.new
-stats = [0] * 3
-stats.size.times do |thread_no|
-	Thread.start(thread_no) do |thread_no|
-		while (ts_url, block_no = q.pop)
-			begin
-				sleep(rand(0.1) * 3)
-				results[block_no] = agent.get_file(ts_url)
-				stats[thread_no] = block_no
-			rescue Mechanize::ResponseCodeError => e
-				case e.response_code
-				when "403" # Forbidden
-					msgs.push "T#{thread_no}: 403 Forbidden"
-					retry
-				when "429" # TooManyRequests
-					msgs.push "T#{thread_no}: 429 TooManyRequests"
-					retry
-				else
-					msgs.push "T#{thread_no}: #{e}"
-					retry # TODO: catch other status code
-				end
-			rescue
-				msgs.push "T#{thread_no}: #{e.class} #{e}"
-				break
-			end
-		end
-	end
-end
-
-def print_status(block, tses, stats, msgs)
-	$stderr.puts msgs.pop while !msgs.empty?
-	$stderr.print "#{block+1}/#{tses.size} saved --"
-	stats.each_with_index{|block_no, thread_no| $stderr.print " T#{thread_no+1}:#{block_no+1}"}
-	$stderr.print "\r"
-end
-
-def save(fd, results, tses, stats, msgs, decoder)
-	results.each_with_index do |data, i|
-		print_status(i, tses, stats, msgs)
-		loop do
-			if data
-				fd.write(decoder.update(data))
-				results[i] = nil # be saved data want to GC
-				break
-			else
-				sleep(1.0) # wait for complete of chunk download finished
-				data = results[i]
-			end
-		end
-	end
-	fd.write(decoder.final)
-	puts
-end
-
-if ts_file
-	open(ts_file, 'wb:ASCII-8BIT'){|f|save(f, results, tses, stats, msgs, decoder)}
-else
-	save($stdout, results, tses, stats, msgs, decoder)
-end
+exit(0)
