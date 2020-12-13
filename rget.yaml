@@ -23,3 +23,7 @@ programs:
     desc: ル美子さん
     url: https://ch.nicovideo.jp/luminesan/video?rss=2.0
     label: ル美子さん
+  ranacha:
+    desc: らなちゃのひとりごと
+    url: https://stand.fm/channels/5f7d9011f04555115d2170ef
+    label: らなちゃのひとりごと

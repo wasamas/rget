@@ -29,6 +29,9 @@ class WebRadio
 		when %r[^https://asobistore\.jp/]
 			require 'asobistore'
 			AsobiStore.new(params, options)
+		when %r[^https://stand\.fm/channels/]
+			require 'standfm'
+			StandFm.new(params, options)
 		else
 			raise UnsupportError, "unsupported url: #{params['url']}"
 		end
