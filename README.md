@@ -5,9 +5,9 @@ Downloading newest radio programs on the web. Supported radio stations are:
 * hibiki
 * onsen
 * niconico
-* freshlive.tv
 * himalaya.fm
 * Asobi Store
+* stand.fm
 
 If you want to save files as MP3, needs `ffmpeg` command.
 To download niconico video, also needs latest `youtube-dl` command (you can get it from `https://yt-dl.org/`), then specify niconico user ID and password to `~/.netrc` as:
