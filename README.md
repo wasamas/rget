@@ -8,9 +8,10 @@ Downloading newest radio programs on the web. Supported radio stations are:
 * himalaya.fm
 * Asobi Store
 * stand.fm
+* YouTube (playlist only)
 
 If you want to save files as MP3, needs `ffmpeg` command.
-To download niconico video, also needs latest `youtube-dl` command (you can get it from `https://yt-dl.org/`), then specify niconico user ID and password to `~/.netrc` as:
+To download niconico video or YouTube, also needs latest `youtube-dl` command (you can get it from `https://yt-dl.org/`), then specify user ID and password to `~/.netrc` for niconico as:
 
 ```
 machine niconico
