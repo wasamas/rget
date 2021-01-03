@@ -11,9 +11,6 @@ class Youtube < WebRadio
         html = URI.open(@url).read
         json_str = html.scan(/ytInitialData = (.*);<\/script>/).flatten.first
         json = JSON.parse(json_str)
-        File.open("debug.log", "w") do |f|
-            f.puts JSON.pretty_generate(json)
-        end
         title = json["contents"]["twoColumnBrowseResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["sectionListRenderer"]["contents"][0]["itemSectionRenderer"]["contents"][0]["playlistVideoListRenderer"]["contents"][0]["playlistVideoRenderer"]["title"]["runs"][0]["text"]
         @cover = json["contents"]["twoColumnBrowseResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["sectionListRenderer"]["contents"][0]["itemSectionRenderer"]["contents"][0]["playlistVideoListRenderer"]["contents"][0]["playlistVideoRenderer"]["thumbnail"]["thumbnails"].last["url"]
         mp4_url = "https://www.youtube.com#{json["contents"]["twoColumnBrowseResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["sectionListRenderer"]["contents"][0]["itemSectionRenderer"]["contents"][0]["playlistVideoListRenderer"]["contents"][0]["playlistVideoRenderer"]["navigationEndpoint"]["commandMetadata"]["webCommandMetadata"]["url"]}"
