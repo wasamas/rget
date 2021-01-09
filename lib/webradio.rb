@@ -20,9 +20,6 @@ class WebRadio
 		when %r[nicovideo\.jp]
 			require 'nicovideo'
 			Nicovideo.new(params, options)
-		when %r[^https://freshlive\.tv/]
-			require 'freshlive'
-			FreshLive.new(params, options)
 		when %r[^http://m\.himalaya\.fm/]
 			require 'himalaya'
 			Himalaya.new(params, options)
