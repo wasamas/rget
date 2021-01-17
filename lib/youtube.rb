@@ -107,6 +107,15 @@ class YoutubeChannel < Youtube
     end
 
     def dump
-      p "dump youtube channel"
+      tag = @url.scan(%r|/c/([^/]*)|).flatten.first
+      html = Nokogiri(URI(@url).open.read)
+      label = html.css('meta[property="og:title"]').attr('content').text
+      return {
+        tag => {
+          'desc' => label,
+          'url' => "#{@url.scan(%r|(.*?/c/[^/]*)|).flatten.first}/videos?view=0&sort=dd&flow=grid",
+          'label' => label
+        }
+      }
     end
 end
