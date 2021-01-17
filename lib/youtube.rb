@@ -4,10 +4,10 @@ require 'json'
 
 class Youtube < WebRadio
     def initialize(params, options)
-		super
+    super
         @offset = 0
         @target_content = []
-	end
+  end
 
     private
 
@@ -23,12 +23,12 @@ class Youtube < WebRadio
                     raise DownloadError.new(err)
                 end
             end
-		rescue ForbiddenError
-			puts "#{$!.message}, try next."
-			@offset += 1
-			retry
-		rescue NotFoundError
-			raise DownloadError.new('video not found')
+    rescue ForbiddenError
+      puts "#{$!.message}, try next."
+      @offset += 1
+      retry
+    rescue NotFoundError
+      raise DownloadError.new('video not found')
         end
     end
 
@@ -51,9 +51,9 @@ end
 class YoutubePlaylist < Youtube
 
     def initialize(params, options)
-		super
-		@target_content = ["contents", "twoColumnBrowseResultsRenderer", "tabs", 0, "tabRenderer", "content", "sectionListRenderer", "contents", 0, "itemSectionRenderer", "contents", 0, "playlistVideoListRenderer", "contents"].freeze
-	end
+    super
+    @target_content = ["contents", "twoColumnBrowseResultsRenderer", "tabs", 0, "tabRenderer", "content", "sectionListRenderer", "contents", 0, "itemSectionRenderer", "contents", 0, "playlistVideoListRenderer", "contents"].freeze
+  end
 
     def download
         first_video(URI.open(@url).read) do |content|
@@ -72,7 +72,7 @@ class YoutubePlaylist < Youtube
 end
 
 class YoutubeChannel < Youtube
-	def initialize(params, options)
+  def initialize(params, options)
         super
         @target_content = ['contents', 'twoColumnBrowseResultsRenderer', 'tabs', 1, 'tabRenderer', 'content', 'sectionListRenderer', 'contents', 0, 'itemSectionRenderer', 'contents', 0, 'gridRenderer', 'items'].freeze
     end
