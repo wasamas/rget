@@ -31,7 +31,10 @@ class WebRadio
 			StandFm.new(params, options)
 		when %r[^https://www\.youtube\.com/playlist]
 			require 'youtube'
-			Youtube.new(params, options)
+			YoutubePlaylist.new(params, options)
+		when %r[^https://www\.youtube\.com/c/]
+			require 'youtube'
+			YoutubeChannel.new(params, options)
 		else
 			raise UnsupportError, "unsupported url: #{params['url']}"
 		end
