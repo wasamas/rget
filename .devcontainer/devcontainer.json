@@ -13,7 +13,10 @@
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-		"rebornix.ruby"
+    "rebornix.ruby"
+    ,"github.vscode-pull-request-github"
+    ,"eamodio.gitlens"
+    ,"donjayamanne.githistory"
   ],
 
   // Uncomment the next line if you want start specific services in your Docker Compose config.
