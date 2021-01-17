@@ -1,6 +1,6 @@
 require 'open-uri'
 require 'json'
-
+require 'nokogiri'
 
 class Youtube < WebRadio
     def initialize(params, options)
@@ -69,6 +69,20 @@ class YoutubePlaylist < Youtube
             youtube_download url, mp4_file, mp3_file
         end
     end
+
+    def dump
+      uri = URI(@url)
+      tag = Hash[URI.decode_www_form(File.basename(uri.query))]['list']
+      html = Nokogiri(uri.open.read)
+      label, = html.css('title').text.split(/ - .*\Z/)
+      return {
+        tag => {
+          'desc' => label,
+          'url' => @url,
+          'label' => label
+        }
+      }
+     end
 end
 
 class YoutubeChannel < Youtube
@@ -90,5 +104,9 @@ class YoutubeChannel < Youtube
 
             youtube_download url, mp4_file, mp3_file
         end
+    end
+
+    def dump
+      p "dump youtube channel"
     end
 end
