@@ -61,7 +61,7 @@ class YoutubePlaylist < Youtube
             @cover = item['thumbnail']['thumbnails'].last['url']
             title = item['title']['runs'][0]['text']
             serial = title.scan(/\d+/).first.to_i
-            url = "https://www.youtube.com#{item["navigationEndpoint"]["commandMetadata"]["webCommandMetadata"]["url"]}"
+            url = "https://www.youtube.com/watch?v=#{item["videoId"]}"
 
             mp4_file = serial_file title, @label, serial, 'mp4'
             mp3_file = serial_file title, @label, serial, 'mp3'
