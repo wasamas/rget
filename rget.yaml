@@ -9,7 +9,6 @@ programs:
     desc: ラジオ「松井恵理子のにじらじっ！」
     url: http://www.onsen.ag/program/matsui/
     label: 松井恵理子のにじらじ
-    cover: //*[@id='newProgramWrap']//img[1]/@src
   suzakinishi:
     desc: 洲崎西
     url: http://ch.nicovideo.jp/search/%E6%B4%B2%E5%B4%8E%E8%A5%BF?channel_id=ch2589908&mode=s&sort=f&order=d&type=video
