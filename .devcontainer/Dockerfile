@@ -1,4 +1,4 @@
-FROM ruby:2
+FROM ruby:3
 ENV USER vscode
 LABEL maintainer "@tdtds <t@tdtds.jp>"
 RUN apt-get -y update && apt-get -y install ffmpeg && \

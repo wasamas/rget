@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "pit"
   spec.add_runtime_dependency "dropbox_api"
   spec.add_runtime_dependency "mp3info"
+  spec.add_runtime_dependency "rss"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
