@@ -31,7 +31,7 @@ class Nicovideo < WebRadio
 				serial = tmp if tmp > 0
 			end
 			appendix = title =~ /おまけ|アフタートーク/ ? 'a' : ''
-			@file = "#{@label}##{'%02d' % serial}#{appendix}.#{video.type}"
+			@file = "#{@label}##{'%02d' % serial}#{appendix}.#{video.type || 'mp4'}"
 			@mp3_file = @file.sub(/\....$/, '.mp3')
 			mp3nize(@file, @mp3_file) do
 				loop do
