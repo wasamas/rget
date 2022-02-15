@@ -39,7 +39,7 @@ class Nicovideo < WebRadio
 					_, err, status = Open3.capture3("youtube-dl -f mp4 -o #{@file} --netrc #{video.url}")
 					break if status == 0
 					next if err =~ /403: Forbidden/
-					raise ForbiddenError.new("Could not access to #{video.url}") if err =~ /TypeError|AssertionError/
+					raise ForbiddenError.new("Could not access to #{video.url}") if err =~ /TypeError|AssertionError|The video can't be downloaded/
 					raise DownloadError.new(err) 
 				end
 			end
