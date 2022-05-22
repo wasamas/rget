@@ -12,12 +12,24 @@ class Onsen < HLS
 	def initialize(params, options)
 		super
 		@cover = "//*[@class='newest-content--left']//img[1]/@src" unless @cover
+		@offset = 0
 	end
 
 	def download
+		program = File.basename(URI(@url).path)
 		html = URI.open(@url, HEADERS, &:read)
-		serial = Nokogiri(html).css('.play-video-info td')[0].text.scan(/\d+/)[0].to_i
-		m3u8 = JSON.parse(html.scan(%r|streaming_url:("https:.*?.m3u8")|).flatten.sort.last)
+		serial = 0
+		Nokogiri(html).css('.play-video-info tr').each do |tr|
+			begin
+				serial = tr.css('td')[0].text.scan(/\d+/)[0].to_i
+			rescue NoMethodError
+				next # the header of tables
+			end
+			break unless serial == 0
+		end
+		m3u8 = html.gsub(%r[\\u002F], '/').scan(%r|"(https:[^:]*?.m3u8)"|).flatten.select{|m|
+			m.match(%r|/\d+/#{program}.*?-#{serial}\.mp4|)
+		}.first
 		hls_download(@label, serial, m3u8, HEADERS)
 	end
 
