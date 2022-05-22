@@ -17,7 +17,7 @@ class Onsen < HLS
 	def download
 		html = URI.open(@url, HEADERS, &:read)
 		serial = Nokogiri(html).css('.play-video-info td')[0].text.scan(/\d+/)[0].to_i
-		m3u8 = JSON.parse(html.scan(%r|streaming_url:("https:.*?.m3u8")|).flatten.sort.last)
+		m3u8 = JSON.parse(html.scan(%r|("https:[^:]*?.m3u8")|).flatten.last)
 		hls_download(@label, serial, m3u8, HEADERS)
 	end
 
